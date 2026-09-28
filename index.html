@@ -307,7 +307,7 @@ window.WHO_LMS={"wfa_b":[[0.3487,3.3464,0.14602],[0.2297,4.4709,0.13395],[0.197,
       '<p class="sub">' + esc(sub) + ' <button class="link" data-go="settings">edit</button></p></div></div></div>';
     html += '<div id="content">' + renderTab() + "</div>";
     html += renderSheet();
-    html += '<nav class="tabs">' + [["today", "Today", "📅"], ["history", "History", "📖"], ["growth", "Growth", "📏"], ["insights", "Insights", "💡"], ["ask", "Ask", "💬"], ["settings", "Settings", "⚙️"]].map(function (t) {
+    html += '<nav class="tabs">' + [["today", "Today", "📝"], ["history", "History", "📖"], ["growth", "Growth", "📏"], ["insights", "Insights", "💡"], ["ask", "Ask", "💬"], ["settings", "Settings", "⚙️"]].map(function (t) {
       return '<button class="tab' + (state.tab === t[0] ? " active" : "") + '" data-tab="' + t[0] + '"><span class="ic">' + t[2] + "</span>" + t[1] + "</button>";
     }).join("") + "</nav>";
     app.innerHTML = html; bind(); hydratePhotos();
@@ -1040,7 +1040,7 @@ window.WHO_LMS={"wfa_b":[[0.3487,3.3464,0.14602],[0.2297,4.4709,0.13395],[0.197,
 </script>
 <script>
 (function () {
-  var APP_VERSION = 32;
+  var APP_VERSION = 34;
   try {
     if (navigator.onLine) {
       fetch("index.html?ts=" + Date.now(), { cache: "no-store" }).then(function (r) { return r.text(); }).then(function (html) {
