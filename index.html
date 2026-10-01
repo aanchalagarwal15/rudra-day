@@ -58,6 +58,15 @@ input.fld:focus,select.fld:focus{outline:none;border-color:var(--primary);}
 .sexcard .em{font-size:30px;line-height:1;font-weight:800;}
 .sexcard .lb{font-size:13px;font-weight:800;}
 .sexcard.on{border-color:var(--primary);background:var(--tint);color:var(--primary);box-shadow:0 0 0 2px var(--tint) inset;}
+.tagchip{display:inline-block;background:var(--tint);color:var(--primary);border-radius:12px;padding:4px 10px;font-size:12px;font-weight:800;margin:0 6px 6px 0;}
+.dntext{margin:4px 0 0;font-size:14px;line-height:1.45;}
+.dnempty{width:calc(100% - 32px);margin:0 16px 12px;border:1.5px dashed var(--line);background:transparent;border-radius:18px;padding:12px 14px;display:flex;align-items:center;gap:12px;text-align:left;cursor:pointer;color:var(--ink);font-family:inherit;}
+.dnicon{font-size:20px;}
+.dntitle{font-size:14px;font-weight:800;display:block;}
+.dnline{background:var(--tint);border-radius:12px;padding:8px 10px 2px;margin-top:8px;}
+.dnline .tagchip{background:var(--card);}
+.dnltext{display:block;font-size:13px;line-height:1.45;padding-bottom:6px;}
+textarea.fld{width:100%;border:1.5px solid var(--line);border-radius:14px;padding:12px 13px;font-size:16px;font-family:inherit;color:var(--ink);background:var(--field);resize:vertical;}
 .toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translate(-50%,10px);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:14px;font-size:13px;font-weight:700;opacity:0;transition:opacity .25s,transform .25s;z-index:950;pointer-events:none;max-width:90%;text-align:center;}
 .toast.show{opacity:1;transform:translate(-50%,0);}
 .grouplabel{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin:12px 0 6px;}
@@ -218,6 +227,7 @@ window.WHO_WFL = { b: { L: -0.3521, M: [2.441,2.5244,2.6077,2.6913,2.7755,2.8609
   var SYMPTOMS = ["Fever", "Cough", "Runny nose", "Congestion", "Vomiting", "Diarrhea", "Rash", "Sore throat", "Ear pain", "Teething", "Fussy / unwell"];
   var FEED_METHODS = ["Breastfeed", "Expressed milk", "Formula", "Cow milk"];
   var EGG_PREPS = ["Boiled", "Omelette", "Scrambled", "Fried", "Poached", "Mashed"];
+  var DAY_TAGS = ["Teething", "Slept badly", "Fussy", "Hiccups", "Gassy", "Off food", "Unwell", "Good day"];
   var GROUP_ORDER = ["Food", "Sleep", "Body", "Other"];
   var TYPE_GROUP = { meal: "Food", snack: "Food", fruit: "Food", puree: "Food", egg: "Food", water: "Food", milk: "Food", wake: "Sleep", nap: "Sleep", bed: "Sleep", poop: "Body", diaper: "Body", symptom: "Body", med: "Body", vaccine: "Body", doctor: "Body", other: "Other" };
   function typeGroup(k) { if (TYPE_GROUP[k]) return TYPE_GROUP[k]; var c = null; (typeof CUSTOM !== "undefined" ? CUSTOM : []).forEach(function (x) { if (x.key === k) c = x; }); return (c && c.group && GROUP_ORDER.indexOf(c.group) >= 0) ? c.group : "Other"; }
@@ -271,10 +281,10 @@ window.WHO_WFL = { b: { L: -0.3521, M: [2.441,2.5244,2.6077,2.6913,2.7755,2.8609
     tab: "today", child: load(K.child, { name: "", dob: "", sex: "" }), days: load(K.days, {}), growth: load(K.growth, []),
     units: load(K.units, "metric"), foods: load(K.foods, {}), appname: load(K.appname, ""), tempunit: load(K.tempunit, "C"),
     enabledTypes: load(K.enabled, DEFAULT_TYPES.slice()), enabledFeeds: load(K.feedmethods, FEED_METHODS.slice()), enabledPreps: load(K.eggpreps, ["Boiled", "Omelette"]),
-    viewDay: todayKey(), draftType: "meal", editingId: null, feedMethod: "Breastfeed", draftPhoto: "", lastBackup: load(K.lastbackup, ""), scrollToButtons: false, logOpen: false, historyQuery: "", insightsRange: "today", insightsFrom: "", insightsTo: "", feedDetail: load(K.feeddetail, false), eggCount: "1", eggPrep: "", draft: null, backupDismissed: false, trendsView: "insights", customGroup: "Other", customDraft: null, welcomed: load(K.welcomed, false), settingsOpen: { profile: true, logging: false, data: false }, pickerOpen: false
+    viewDay: todayKey(), draftType: "meal", editingId: null, feedMethod: "Breastfeed", draftPhoto: "", lastBackup: load(K.lastbackup, ""), scrollToButtons: false, logOpen: false, historyQuery: "", insightsRange: "today", insightsFrom: "", insightsTo: "", feedDetail: load(K.feeddetail, false), eggCount: "1", eggPrep: "", draft: null, backupDismissed: false, trendsView: "insights", customGroup: "Other", customDraft: null, welcomed: load(K.welcomed, false), settingsOpen: { profile: true, logging: false, data: false }, pickerOpen: false, dayNoteEditing: "", dayNoteDraftTags: [], returnDay: ""
   };
   if (state.child.sex == null) state.child.sex = "";
-  if (!state.welcomed && (state.child.name || state.child.dob)) { state.welcomed = true; save(K.welcomed, true); }
+  if (!state.welcomed && (state.child.name || state.child.dob || (state.growth || []).length || Object.keys(state.days || {}).some(function (k) { var d = state.days[k] || {}; return (d.entries && d.entries.length) || d.dayNote || (d.dayTags && d.dayTags.length); }))) { state.welcomed = true; save(K.welcomed, true); }
   var CUSTOM = load(K.custom, []);
   CUSTOM.forEach(function (c) { if (c && c.key) { if (!TYPES[c.key]) TYPES[c.key] = { label: c.label || "Custom", icon: c.icon || "\ud83d\udcdd" }; if (PICKER.indexOf(c.key) < 0) PICKER.push(c.key); } });
   state.enabledTypes = (state.enabledTypes || []).filter(function (k) { return PICKER.indexOf(k) >= 0; }); if (!state.enabledTypes.length) state.enabledTypes = PICKER.slice();
@@ -308,7 +318,7 @@ window.WHO_WFL = { b: { L: -0.3521, M: [2.441,2.5244,2.6077,2.6913,2.7755,2.8609
   function fileStem() { var n = (state.child.name || "").trim().toLowerCase().replace(/[^a-z0-9]+/g, ""); return (n ? n + "s" : "babys") + "-day"; }
   function exportCSV() {
     var rows = [["date", "time", "end_time", "type", "item", "note", "feed_method", "amount_ml", "duration_min"]];
-    Object.keys(state.days).sort().forEach(function (dk) { (state.days[dk].entries || []).slice().sort(function (a, b) { return a.time.localeCompare(b.time); }).forEach(function (e) { rows.push([dk, e.time, e.endTime || "", (TYPES[e.type] && TYPES[e.type].label) || e.type, e.items || "", e.note || "", e.feedMethod || "", e.amountMl != null ? e.amountMl : "", e.durationMin != null ? e.durationMin : ""]); }); });
+    Object.keys(state.days).sort().forEach(function (dk) { var dnx = state.days[dk]; if (dnx && ((dnx.dayTags && dnx.dayTags.length) || dnx.dayNote)) rows.push([dk, "", "", "Day note", (dnx.dayTags || []).join("; "), dnx.dayNote || "", "", "", ""]); (state.days[dk].entries || []).slice().sort(function (a, b) { return a.time.localeCompare(b.time); }).forEach(function (e) { rows.push([dk, e.time, e.endTime || "", (TYPES[e.type] && TYPES[e.type].label) || e.type, e.items || "", e.note || "", e.feedMethod || "", e.amountMl != null ? e.amountMl : "", e.durationMin != null ? e.durationMin : ""]); }); });
     var csv = rows.map(function (r) { return r.map(function (c) { c = String(c); return /[",\n]/.test(c) ? '"' + c.replace(/"/g, '""') + '"' : c; }).join(","); }).join("\n");
     downloadBlob(new Blob([csv], { type: "text/csv" }), fileStem() + "-log-" + todayKey() + ".csv");
   }
@@ -335,10 +345,12 @@ window.WHO_WFL = { b: { L: -0.3521, M: [2.441,2.5244,2.6077,2.6913,2.7755,2.8609
       '<label class="mini" style="display:block;margin-top:12px">Date of birth</label><input class="fld" type="date" id="w-dob" value="' + esc(state.child.dob || "") + '" max="' + todayKey() + '" style="margin-top:4px">' +
       '<label class="mini" style="display:block;margin-top:12px">Sex, used only for WHO growth charts</label><div class="sexcards"><button type="button" class="sexcard' + (sx === "boy" ? " on" : "") + '" data-wsex="boy"><span class="em">\u2642\ufe0e</span><span class="lb">Boy</span></button><button type="button" class="sexcard' + (sx === "girl" ? " on" : "") + '" data-wsex="girl"><span class="em">\u2640\ufe0e</span><span class="lb">Girl</span></button></div>' +
       '<button class="add" id="w-start">Start logging</button>' +
-      '<p class="mini" style="text-align:center;margin-top:10px"><button class="link" id="w-skip">Skip for now, I will add this later</button></p></div>' +
+      '<p class="mini" style="text-align:center;margin-top:10px"><button class="link" id="w-skip">Skip for now, I will add this later</button></p><p class="mini" style="text-align:center;margin-top:4px"><button class="link" id="w-restore">Moving phones? Restore from a backup file</button></p><input type="file" id="w-importFile" accept="application/json,.json" style="display:none"></div>' +
       '<div class="card"><p class="label">How it works</p><div class="tlitem"><div class="tldot">\ud83d\udcdd</div><div class="tlbody"><p class="tlitems">Tap the circle to log</p><p class="tlnote">Feeds, naps, meals, poops, symptoms. Fill the day in whenever suits you, even at bedtime.</p></div></div><div class="tlitem"><div class="tldot">\ud83d\udcc8</div><div class="tlbody"><p class="tlitems">See trends and growth</p><p class="tlnote">WHO percentiles and a doctor recap, ready for the next visit.</p></div></div><div class="tlitem"><div class="tldot">\ud83d\udd12</div><div class="tlbody"><p class="tlitems">Private by design</p><p class="tlnote">No account, no cloud, no ads. Back up to Files whenever you like.</p></div></div></div>';
   }
   function bindWelcome() {
+    var wr = document.getElementById("w-restore"), wf = document.getElementById("w-importFile");
+    if (wr && wf) { wr.onclick = function () { wf.click(); }; wf.onchange = function () { var f = wf.files[0]; if (!f) return; var r = new FileReader(); r.onload = function () { try { mergeImport(JSON.parse(r.result)); state.welcomed = true; save(K.welcomed, true); render(); toast("Backup restored"); } catch (e) { alert("That file could not be read as a backup."); } }; r.readAsText(f); }; }
     Array.prototype.forEach.call(document.querySelectorAll("[data-wsex]"), function (b) { b.onclick = function () { state.child.sex = b.getAttribute("data-wsex"); var n = document.getElementById("w-name"), d = document.getElementById("w-dob"); if (n) state.child.name = n.value.trim(); if (d) state.child.dob = d.value; render(); }; });
     var st = document.getElementById("w-start"); if (st) st.onclick = function () { var n = document.getElementById("w-name"), d = document.getElementById("w-dob"); state.child.name = n ? n.value.trim() : ""; state.child.dob = d ? d.value : ""; save(K.child, state.child); state.welcomed = true; save(K.welcomed, true); render(); toast(state.child.name ? "Welcome, " + state.child.name + "\u2019s day starts here" : "You are all set"); };
     var sk = document.getElementById("w-skip"); if (sk) sk.onclick = function () { state.welcomed = true; save(K.welcomed, true); render(); };
@@ -385,6 +397,18 @@ window.WHO_WFL = { b: { L: -0.3521, M: [2.441,2.5244,2.6077,2.6913,2.7755,2.8609
     var leg = '<div class="mini" style="display:flex;gap:12px;margin-top:2px;flex-wrap:wrap"><span><i class="lg" style="background:var(--sleepfill);border-radius:3px"></i>Sleep</span><span><i class="lg" style="background:var(--clay)"></i>Food</span><span><i class="lg" style="background:var(--muted)"></i>Body</span><span><i class="lg" style="background:var(--primary)"></i>Other</span></div>';
     return '<div class="card" style="padding:12px 15px 10px">' + svg + leg + "</div>";
   }
+  function dayNoteText(d) { if (!d) return ""; var t = (d.dayTags || []).join(", "), n = (d.dayNote || "").trim(); return t && n ? t + ". " + n : (t || n); }
+  function renderDayNote(k) {
+    var d = getDay(k), tags = d.dayTags || [], note = d.dayNote || "";
+    if (state.dayNoteEditing === k) {
+      var dt = state.dayNoteDraftTags || [];
+      return '<div class="card"><p class="label">About the day</p><div class="pillrow">' + DAY_TAGS.map(function (t) { var on = dt.indexOf(t) >= 0; return '<button class="typebtn' + (on ? " active" : "") + '" data-dntag="' + esc(t) + '">' + esc(t) + "</button>"; }).join("") + '</div><textarea class="fld" id="dn-text" rows="3" placeholder="Anything about the day, e.g. woke up 4 times, lots of hiccups after feeds" style="margin-top:10px">' + esc(note) + '</textarea><div class="row" style="margin-top:10px;gap:10px"><button class="add" id="dn-save" style="margin-top:0;flex:2">Save note</button><button class="ghost" id="dn-cancel" style="margin-top:0;flex:1">Cancel</button></div></div>';
+    }
+    if (tags.length || note) {
+      return '<div class="card"><div class="row between"><p class="label" style="margin:0">\ud83d\udccc About the day</p><button class="del" data-dnopen="1" aria-label="Edit day note">\u270e</button></div>' + (tags.length ? '<div class="pillrow" style="margin-top:8px">' + tags.map(function (t) { return '<span class="tagchip">' + esc(t) + "</span>"; }).join("") + "</div>" : "") + (note ? '<p class="dntext">' + esc(note) + "</p>" : "") + "</div>";
+    }
+    return '<button class="dnempty" data-dnopen="1"><span class="dnicon">\ud83d\udccc</span><span><span class="dntitle">Add a note about the day</span><span class="mini" style="display:block">Teething, slept badly, hiccups, anything without a time</span></span></button>';
+  }
   function backupDue() {
     var keys = Object.keys(state.days).filter(function (k) { return (state.days[k].entries || []).length; }).sort();
     if (!keys.length) return false;
@@ -397,6 +421,7 @@ window.WHO_WFL = { b: { L: -0.3521, M: [2.441,2.5244,2.6077,2.6913,2.7755,2.8609
     if (backupDue() && !state.backupDismissed) s += '<div class="card" style="border-left:3px solid var(--clay);padding:12px 14px"><div style="font-size:13px;font-weight:800">Weekly backup due</div><div class="mini" style="margin-top:2px">Save a copy to Files or iCloud so a lost phone never means lost data.</div><div class="row" style="margin-top:10px;gap:8px"><button class="typebtn active" data-backupnow="1">Back up now</button><button class="typebtn" data-backuplater="1">Later</button></div></div>';
     s += '<div class="logtop"><button class="logcircle" id="logOpen" aria-label="Log something">+</button><div class="logtoplabel">Log something</div></div>';
     s += dayBar(getDay(state.viewDay));
+    s += renderDayNote(state.viewDay);
     s += '<div class="card"><p class="label">' + (state.viewDay === todayKey() ? "The day so far" : "Entries") + '</p><div id="timeline">' + timelineHtml(getDay(state.viewDay), true) + "</div></div>";
     return s;
   }
@@ -470,14 +495,14 @@ window.WHO_WFL = { b: { L: -0.3521, M: [2.441,2.5244,2.6077,2.6913,2.7755,2.8609
     }
     return s;
   }
-  function timelineHtml(day, allowDelete) {
+  function timelineHtml(day, allowDelete, dayKey) {
     var ev = (day.entries || []).slice();
     ev.sort(function (a, b) { return a.time.localeCompare(b.time); });
     if (!ev.length) return '<div class="empty">Nothing logged yet.<br>Tap the circle above to add a feed, nap, meal or poop. You can fill the whole day in at once, even at bedtime.</div>';
     function meta(t) { return TYPES[t] || TYPES.other; }
     return ev.map(function (e) {
       var m = meta(e.type); var tag = (TYPES[e.type] && MARKER_TYPES.indexOf(e.type) < 0) ? TYPES[e.type].label + ": " : "";
-      return '<div class="tlitem"><div class="tldot" style="background:var(--soft)"><span>' + m.icon + '</span></div><div class="tlbody"><div class="tltime">' + to12h(e.time) + '</div><p class="tlitems">' + (tag ? '<span class="tag">' + tag + "</span>" : "") + esc(e.items) + "</p>" + (e.note ? '<p class="tlnote">' + esc(e.note) + "</p>" : "") + (e.photoId ? '<img class="tlphoto" data-photoid="' + esc(e.photoId) + '" data-photo="' + esc(e.id) + '" alt="" src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=">' : "") + "</div>" + (allowDelete ? '<div style="display:flex;align-items:center;gap:2px"><button class="del" data-editentry="' + e.id + '" aria-label="Edit">\u270e</button><button class="del" data-del="' + e.id + '" aria-label="Delete">\u2715</button></div>' : "") + "</div>";
+      return '<div class="tlitem"><div class="tldot" style="background:var(--soft)"><span>' + m.icon + '</span></div><div class="tlbody"><div class="tltime">' + to12h(e.time) + '</div><p class="tlitems">' + (tag ? '<span class="tag">' + tag + "</span>" : "") + esc(e.items) + "</p>" + (e.note ? '<p class="tlnote">' + esc(e.note) + "</p>" : "") + (e.photoId ? '<img class="tlphoto" data-photoid="' + esc(e.photoId) + '" data-photo="' + esc(e.id) + '" alt="" src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=">' : "") + "</div>" + (allowDelete ? '<div style="display:flex;align-items:center;gap:2px"><button class="del" data-editentry="' + e.id + '" data-day="' + (dayKey || state.viewDay) + '" aria-label="Edit">\u270e</button><button class="del" data-del="' + e.id + '" data-day="' + (dayKey || state.viewDay) + '" aria-label="Delete">\u2715</button></div>' : "") + "</div>";
     }).join("");
   }
   function refreshTimeline() { var el = document.getElementById("timeline"); if (el) { el.innerHTML = timelineHtml(getDay(state.viewDay), true); bindPhotos(); hydratePhotos(); } }
@@ -488,21 +513,21 @@ window.WHO_WFL = { b: { L: -0.3521, M: [2.441,2.5244,2.6077,2.6913,2.7755,2.8609
     return s;
   }
   function historyResultsHtml() {
-    var keys = Object.keys(state.days).filter(function (k) { var d = state.days[k]; return (d.entries && d.entries.length) || d.wake || d.bed; }).sort().reverse();
+    var keys = Object.keys(state.days).filter(function (k) { var d = state.days[k]; return (d.entries && d.entries.length) || d.wake || d.bed || d.dayNote || (d.dayTags && d.dayTags.length); }).sort().reverse();
     if (!keys.length) return '<div class="card"><div class="empty">No history yet. Start logging in Today and it shows up here, ready to share with the doctor.</div></div>';
     var q = (state.historyQuery || "").trim().toLowerCase();
     if (q) {
       var matches = [];
-      keys.forEach(function (k) { (state.days[k].entries || []).forEach(function (e) { var hay = ((e.items || "") + " " + (e.note || "") + " " + ((TYPES[e.type] && TYPES[e.type].label) || "")).toLowerCase(); if (hay.indexOf(q) >= 0) matches.push({ k: k, e: e }); }); });
+      keys.forEach(function (k) { (state.days[k].entries || []).forEach(function (e) { var hay = ((e.items || "") + " " + (e.note || "") + " " + ((TYPES[e.type] && TYPES[e.type].label) || "")).toLowerCase(); if (hay.indexOf(q) >= 0) matches.push({ k: k, e: e }); }); var dnt = dayNoteText(state.days[k]); if (dnt && dnt.toLowerCase().indexOf(q) >= 0) matches.push({ k: k, dn: dnt }); });
       if (!matches.length) return '<div class="card"><div class="empty">Nothing matches \u201c' + esc(q) + '\u201d yet.</div></div>';
-      matches.sort(function (a, b) { return (b.k + b.e.time).localeCompare(a.k + a.e.time); });
+      matches.sort(function (a, b) { return (b.k + (b.e ? b.e.time : "99:99")).localeCompare(a.k + (a.e ? a.e.time : "99:99")); });
       var out = '<p class="mini" style="padding:0 20px 6px">' + matches.length + " match" + (matches.length > 1 ? "es" : "") + " for \u201c" + esc(q) + "\u201d, newest first. Tap one to open that day.</p><div class=\"card\">";
-      out += matches.map(function (m) { var v = TYPES[m.e.type] || TYPES.other; var tag = (MARKER_TYPES.indexOf(m.e.type) < 0) ? v.label + ": " : ""; return '<div class="tlitem" data-openday="' + m.k + '" style="cursor:pointer"><div class="tldot"><span>' + v.icon + '</span></div><div class="tlbody"><div class="tltime">' + prettyDate(m.k) + " \u00b7 " + to12h(m.e.time) + '</div><p class="tlitems">' + (tag ? '<span class="tag">' + tag + "</span>" : "") + esc(m.e.items) + "</p></div></div>"; }).join("") + "</div>";
+      out += matches.map(function (m) { if (m.dn) return '<div class="tlitem" data-openday="' + m.k + '" style="cursor:pointer"><div class="tldot"><span>\ud83d\udccc</span></div><div class="tlbody"><div class="tltime">' + prettyDate(m.k) + ' \u00b7 Note about the day</div><p class="tlitems">' + esc(m.dn) + "</p></div></div>"; var v = TYPES[m.e.type] || TYPES.other; var tag = (MARKER_TYPES.indexOf(m.e.type) < 0) ? v.label + ": " : ""; return '<div class="tlitem" data-openday="' + m.k + '" style="cursor:pointer"><div class="tldot"><span>' + v.icon + '</span></div><div class="tlbody"><div class="tltime">' + prettyDate(m.k) + " \u00b7 " + to12h(m.e.time) + '</div><p class="tlitems">' + (tag ? '<span class="tag">' + tag + "</span>" : "") + esc(m.e.items) + "</p></div>" + '<div style="display:flex;align-items:center;gap:2px"><button class="del" data-editentry="' + m.e.id + '" data-day="' + m.k + '" aria-label="Edit">\u270e</button><button class="del" data-del="' + m.e.id + '" data-day="' + m.k + '" aria-label="Delete">\u2715</button></div></div>'; }).join("") + "</div>";
       return out;
     }
-    return '<p class="mini" style="padding:0 20px 6px">Tap a date to open that day and edit it.</p>' + keys.map(function (k) { var d = state.days[k]; return '<div class="card"><div class="row between"><button class="daylabel daylabelbtn" data-openday="' + k + '">' + prettyDate(k) + ' \u203a</button><span class="mini">' + ((d.entries || []).length) + ' entries</span></div><div style="margin-top:8px">' + timelineHtml(d, false) + '</div><button class="ghost" data-copy="' + k + '">Copy summary for doctor</button></div>'; }).join("");
+    return '<p class="mini" style="padding:0 20px 6px">Tap \u270e to edit an entry, or a date to open that day.</p>' + keys.map(function (k) { var d = state.days[k]; var dnh = ((d.dayTags && d.dayTags.length) || d.dayNote) ? '<div class="dnline">' + (d.dayTags || []).map(function (t) { return '<span class="tagchip">' + esc(t) + "</span>"; }).join("") + (d.dayNote ? '<span class="dnltext">' + esc(d.dayNote) + "</span>" : "") + "</div>" : ""; return '<div class="card"><div class="row between"><button class="daylabel daylabelbtn" data-openday="' + k + '">' + prettyDate(k) + ' \u203a</button><span class="mini">' + ((d.entries || []).length) + ' entries</span></div>' + dnh + '<div style="margin-top:8px">' + ((d.entries || []).length ? timelineHtml(d, true, k) : "") + '</div><button class="ghost" data-copy="' + k + '">Copy summary for doctor</button></div>'; }).join("");
   }
-  function summaryText(k) { var d = state.days[k]; var L = [(state.child.name || "Child") + " \u2014 " + prettyDate(k)]; (d.entries || []).slice().sort(function (a, b) { return a.time.localeCompare(b.time); }).forEach(function (e) { var mark = MARKER_TYPES.indexOf(e.type) >= 0; L.push(to12h(e.time) + " \u2014 " + (mark ? e.items : ((TYPES[e.type] ? TYPES[e.type].label : "Other") + ": " + e.items)) + (e.note ? " (" + e.note + ")" : "")); }); return L.join("\n"); }
+  function summaryText(k) { var d = state.days[k]; var L = [(state.child.name || "Child") + " \u2014 " + prettyDate(k)]; (d.entries || []).slice().sort(function (a, b) { return a.time.localeCompare(b.time); }).forEach(function (e) { var mark = MARKER_TYPES.indexOf(e.type) >= 0; L.push(to12h(e.time) + " \u2014 " + (mark ? e.items : ((TYPES[e.type] ? TYPES[e.type].label : "Other") + ": " + e.items)) + (e.note ? " (" + e.note + ")" : "")); }); var sdn = dayNoteText(d); if (sdn) L.push("Note about the day: " + sdn); return L.join("\n"); }
 
   // ---------- Growth ----------
   function toMetric(rec, field) { if (rec[field] == null) return null; var imp = (rec.units || "metric") === "imperial"; if (field === "h") return imp ? rec.h * 2.54 : rec.h; return imp ? rec.w / 2.205 : rec.w; }
@@ -684,6 +709,7 @@ window.WHO_WFL = { b: { L: -0.3521, M: [2.441,2.5244,2.6077,2.6913,2.7755,2.8609
     var poops = rows.filter(function (r) { return r.e.type === "poop"; }); if (poops.length) L.push("Poops " + poops.length + " (avg " + (poops.length / nd).toFixed(1) + "/day)");
     var sym = rows.filter(function (r) { return r.e.type === "symptom"; }); if (sym.length) { L.push("Symptoms:"); sym.forEach(function (r) { L.push("  " + prettyDate(r.date) + " " + to12h(r.e.time) + " " + r.e.items); }); }
     ["med", "supplement", "vaccine"].forEach(function (t) { var rr = rows.filter(function (r) { return r.e.type === t; }); if (rr.length) { var nm = {}; rr.forEach(function (r) { nm[r.e.items] = 1; }); L.push(TYPES[t].label + ": " + Object.keys(nm).join("; ")); } });
+    var dnl = []; for (var di = days - 1; di >= 0; di--) { var dk2 = shiftDay(todayKey(), -di), dtx = dayNoteText(state.days[dk2]); if (dtx) dnl.push("  " + prettyDate(dk2) + ": " + dtx); } if (dnl.length) { L.push("Notes about the day:"); dnl.forEach(function (x) { L.push(x); }); }
     if (state.growth.length) { var g = null; state.growth.forEach(function (x) { if (!g || x.date > g.date) g = x; }); var mo = ageMonths(state.child.dob, g.date), wp = null, hp = null; if (state.child.dob && state.child.sex) { var wpp = percentile("w", toMetric(g, "w"), mo, state.child.sex), hpp = percentile("h", toMetric(g, "h"), mo, state.child.sex); if (wpp && wpp.p != null) wp = Math.round(wpp.p); if (hpp && hpp.p != null) hp = Math.round(hpp.p); } var un = state.units === "imperial" ? { w: "lb", h: "in" } : { w: "kg", h: "cm" }; L.push("Latest growth " + prettyDate(g.date) + ": " + (toDisplay(g, "w") != null ? toDisplay(g, "w").toFixed(1) + un.w : "") + (toDisplay(g, "h") != null ? ", " + toDisplay(g, "h").toFixed(1) + un.h : "") + (wp != null ? " (weight ~" + wp + "th pct" + (hp != null ? ", height ~" + hp + "th" : "") + ")" : "")); }
     L.push(""); L.push("From " + appTitle() + ", a private on-device log. Percentiles are WHO estimates for recall, not a diagnosis.");
     return L.join("\n");
@@ -761,6 +787,9 @@ window.WHO_WFL = { b: { L: -0.3521, M: [2.441,2.5244,2.6077,2.6913,2.7755,2.8609
       else if (logged) lines.push("All five food groups appeared on at least half the logged days. Nice variety.");
     }
     if (symList.length) lines.push(symList.length + " symptom" + (symList.length > 1 ? "s" : "") + " logged" + (single ? " today" : "") + ".");
+    var tagCount = {}; dates.forEach(function (k) { ((state.days[k] && state.days[k].dayTags) || []).forEach(function (t) { tagCount[t] = (tagCount[t] || 0) + 1; }); });
+    var tagKeys = Object.keys(tagCount).sort(function (a, b) { return tagCount[b] - tagCount[a]; });
+    if (tagKeys.length) lines.push(single ? ("Tagged: " + tagKeys.join(", ") + ".") : ("Day tags: " + tagKeys.slice(0, 4).map(function (t) { return t + " on " + tagCount[t] + " day" + (tagCount[t] > 1 ? "s" : ""); }).join(", ") + "."));
     var soWhat = lines.length ? '<div class="card" style="border-left:3px solid var(--primary);padding:12px 14px"><p class="label" style="margin-bottom:4px">In short</p>' + lines.map(function (l) { return '<div style="font-size:14px;font-weight:700;line-height:1.45;margin-top:4px">' + esc(l) + "</div>"; }).join("") + "</div>" : "";
     s = rangeSelector() + soWhat + s;
     s += '<p class="mini" style="padding:0 20px">Food groups come from simple keyword matching of the words you type (for example \u201cdal\u201d counts as protein). Fibre comes mainly from fruit, vegetables and grains. It is basic arithmetic on your own entries, on the phone. A memory aid, not medical advice.</p>';
@@ -844,12 +873,13 @@ window.WHO_WFL = { b: { L: -0.3521, M: [2.441,2.5244,2.6077,2.6913,2.7755,2.8609
       '<p class="mini">Everything is stored on this device only, in this app. Nothing is shared. No ads, ever.</p>' +
       '<button class="ghost" id="clearBtn" style="border-color:#D49A9A;color:#C57A7A">Clear all logged data</button></div>';
     s += '</div>';
+    s += '<p class="mini" style="text-align:center;margin:4px 16px 18px">Version ' + esc(String(window.APP_VERSION || "")) + ' \u00b7 <button class="link" id="checkUpdate">Check for updates</button></p>';
     return s;
   }
 
   // ---------- bind ----------
   function bind() {
-    Array.prototype.forEach.call(document.querySelectorAll("[data-tab]"), function (b) { b.onclick = function () { state.tab = b.getAttribute("data-tab"); render(); }; });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-tab]"), function (b) { b.onclick = function () { var nt = b.getAttribute("data-tab"); if (state.tab === "history" && nt !== "history") state.historyQuery = ""; state.dayNoteEditing = ""; state.tab = nt; render(); }; });
     var g = document.querySelector("[data-go]"); if (g) g.onclick = function () { state.tab = "settings"; render(); };
     Array.prototype.forEach.call(document.querySelectorAll("[data-nav]"), function (b) { b.onclick = function () { state.viewDay = shiftDay(state.viewDay, Number(b.getAttribute("data-nav"))); render(); }; });
     var dj = document.getElementById("dayJump"), di = document.getElementById("dateInput");
@@ -861,17 +891,37 @@ window.WHO_WFL = { b: { L: -0.3521, M: [2.441,2.5244,2.6077,2.6913,2.7755,2.8609
     if (state.logOpen) bindSheet();
   }
 
+  function openEditEntry(dayKey, id) {
+    var en = findEntry(dayKey, id); if (!en) return;
+    if (dayKey !== state.viewDay) { state.returnDay = state.viewDay; state.viewDay = dayKey; }
+    state.editingId = id; state.draftType = en.type; state.pickerOpen = false; state.draft = null;
+    if (en.type === "milk") { state.feedMethod = en.feedMethod || (FEED_METHODS.filter(function (m) { return en.items && en.items.indexOf(m) === 0; })[0]) || state.enabledFeeds[0]; }
+    if (en.type === "egg") { var mc = (en.items || "").match(/^(\u00bd|\d+)/); state.eggCount = mc ? mc[1] : "1"; var mp = (en.items || "").match(/,\s*([A-Za-z]+)/); state.eggPrep = mp ? (mp[1].charAt(0).toUpperCase() + mp[1].slice(1).toLowerCase()) : ""; }
+    function go(ph) { state.draftPhoto = ph || ""; state.logOpen = true; render(); }
+    if (en.photoId) { if (photoCache[en.photoId]) go(photoCache[en.photoId]); else idbGet(en.photoId, function (v) { if (v) photoCache[en.photoId] = v; go(v); }); } else go("");
+  }
+  function restoreReturnDay() { if (state.returnDay) { state.viewDay = state.returnDay; state.returnDay = ""; } }
+  function deleteEntry(dayKey, id) {
+    if (!confirm("Delete this entry?")) return;
+    var en = findEntry(dayKey, id); if (en && en.photoId) idbDel(en.photoId);
+    var day = getDay(dayKey); day.entries = (day.entries || []).filter(function (e) { return String(e.id) !== String(id); });
+    setDay(dayKey, day); if (state.editingId === id) state.editingId = null; render(); toast("Deleted");
+  }
   function bindToday() {
+    Array.prototype.forEach.call(document.querySelectorAll("[data-dnopen]"), function (b) { b.onclick = function () { state.dayNoteEditing = state.viewDay; state.dayNoteDraftTags = (getDay(state.viewDay).dayTags || []).slice(); render(); var ta = document.getElementById("dn-text"); if (ta) ta.focus(); }; });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-dntag]"), function (b) { b.onclick = function () { var t = b.getAttribute("data-dntag"), a = state.dayNoteDraftTags || (state.dayNoteDraftTags = []), i = a.indexOf(t); if (i >= 0) a.splice(i, 1); else a.push(t); b.className = "typebtn" + (i >= 0 ? "" : " active"); }; });
+    var dns = document.getElementById("dn-save"); if (dns) dns.onclick = function () { var day = getDay(state.viewDay), txt = (document.getElementById("dn-text").value || "").trim(), tags = DAY_TAGS.filter(function (t) { return (state.dayNoteDraftTags || []).indexOf(t) >= 0; }); if (txt) day.dayNote = txt; else delete day.dayNote; if (tags.length) day.dayTags = tags; else delete day.dayTags; day.dayUpdated = Date.now(); setDay(state.viewDay, day); state.dayNoteEditing = ""; render(); toast(txt || tags.length ? "Day note saved" : "Day note removed"); };
+    var dnc = document.getElementById("dn-cancel"); if (dnc) dnc.onclick = function () { state.dayNoteEditing = ""; render(); };
     var bn = document.querySelector("[data-backupnow]"); if (bn) bn.onclick = function () { exportBackup(); };
     var bl = document.querySelector("[data-backuplater]"); if (bl) bl.onclick = function () { state.backupDismissed = true; render(); };
     var lo = document.getElementById("logOpen"); if (lo) lo.onclick = function () { state.editingId = null; state.draftType = ""; state.draft = null; state.pickerOpen = false; state.draftPhoto = ""; state.logOpen = true; render(); };
-    Array.prototype.forEach.call(document.querySelectorAll("[data-editentry]"), function (b) { b.onclick = function () { var id = b.getAttribute("data-editentry"); var en = findEntry(state.viewDay, id); if (!en) return; state.editingId = id; state.draftType = en.type; if (en.type === "milk") { state.feedMethod = en.feedMethod || (FEED_METHODS.filter(function (m) { return en.items && en.items.indexOf(m) === 0; })[0]) || state.enabledFeeds[0]; } if (en.type === "egg") { var mc = (en.items || "").match(/^(\u00bd|\d+)/); state.eggCount = mc ? mc[1] : "1"; var mp = (en.items || "").match(/,\s*([A-Za-z]+)/); state.eggPrep = mp ? (mp[1].charAt(0).toUpperCase() + mp[1].slice(1).toLowerCase()) : ""; } function go(p) { state.draftPhoto = p || ""; state.logOpen = true; render(); } if (en.photoId) { if (photoCache[en.photoId]) go(photoCache[en.photoId]); else idbGet(en.photoId, function (v) { if (v) photoCache[en.photoId] = v; go(v); }); } else go(""); }; });
-    Array.prototype.forEach.call(document.querySelectorAll("[data-del]"), function (b) { b.onclick = function () { if (!confirm("Delete this entry?")) return; var id = b.getAttribute("data-del"); var en = findEntry(state.viewDay, id); if (en && en.photoId) idbDel(en.photoId); var day = getDay(state.viewDay); day.entries = (day.entries || []).filter(function (e) { return String(e.id) !== id; }); setDay(state.viewDay, day); if (state.editingId === id) state.editingId = null; render(); }; });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-editentry]"), function (b) { b.onclick = function () { openEditEntry(b.getAttribute("data-day") || state.viewDay, b.getAttribute("data-editentry")); }; });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-del]"), function (b) { b.onclick = function () { deleteEntry(b.getAttribute("data-day") || state.viewDay, b.getAttribute("data-del")); }; });
     bindPhotos();
   }
   function snapshotDraft() { var g = function (id) { var el = document.getElementById(id); return el ? el.value : null; }; state.draft = { type: state.draftType, time: g("f-time"), items: g("f-items"), note: g("f-note"), temp: g("f-temp"), end: g("f-end"), dur: g("f-dur"), amt: g("f-amt") }; }
   function sheetHint(msg) { var h = document.getElementById("sheetHint"); if (h) h.textContent = msg; }
-  function closeSheet() { state.logOpen = false; state.editingId = null; state.draftPhoto = ""; state.draft = null; state.pickerOpen = false; render(); }
+  function closeSheet() { state.logOpen = false; state.editingId = null; state.draftPhoto = ""; state.draft = null; state.pickerOpen = false; restoreReturnDay(); render(); }
   function doAdd() {
     var ftEl = document.getElementById("f-time");
     if (!ftEl || !ftEl.value) { sheetHint("Set the time first."); if (ftEl) ftEl.focus(); return; }
@@ -911,7 +961,7 @@ window.WHO_WFL = { b: { L: -0.3521, M: [2.441,2.5244,2.6077,2.6913,2.7755,2.8609
       day.entries = (day.entries || []).concat(e); day.entries.sort(function (a, b) { return a.time.localeCompare(b.time); }); setDay(state.viewDay, day);
       if (["meal", "snack", "fruit", "puree", "drink"].indexOf(state.draftType) >= 0) { state.foods[items] = (state.foods[items] || 0) + 1; save(K.foods, state.foods); }
     }
-    state.draftPhoto = ""; state.draft = null; state.eggCount = "1"; state.eggPrep = ""; state.logOpen = false; state.pickerOpen = false;
+    state.draftPhoto = ""; state.draft = null; state.eggCount = "1"; state.eggPrep = ""; state.logOpen = false; state.pickerOpen = false; restoreReturnDay();
     render();
     toast(wasEditing ? "Saved" : "Logged \u2713");
   }
@@ -969,6 +1019,8 @@ window.WHO_WFL = { b: { L: -0.3521, M: [2.441,2.5244,2.6077,2.6913,2.7755,2.8609
     bindHistoryResults();
   }
   function bindHistoryResults() {
+    Array.prototype.forEach.call(document.querySelectorAll("#histresults [data-editentry]"), function (b) { b.onclick = function (ev) { if (ev) ev.stopPropagation(); openEditEntry(b.getAttribute("data-day"), b.getAttribute("data-editentry")); }; });
+    Array.prototype.forEach.call(document.querySelectorAll("#histresults [data-del]"), function (b) { b.onclick = function (ev) { if (ev) ev.stopPropagation(); deleteEntry(b.getAttribute("data-day"), b.getAttribute("data-del")); }; });
     Array.prototype.forEach.call(document.querySelectorAll("[data-openday]"), function (b) { b.onclick = function () { state.viewDay = b.getAttribute("data-openday"); state.tab = "today"; render(); }; });
     Array.prototype.forEach.call(document.querySelectorAll("[data-copy]"), function (b) {
       b.onclick = function () {
@@ -996,6 +1048,15 @@ window.WHO_WFL = { b: { L: -0.3521, M: [2.441,2.5244,2.6077,2.6913,2.7755,2.8609
   }
 
   function bindSettings() {
+    var cu = document.getElementById("checkUpdate"); if (cu) cu.onclick = function () {
+      if (!window.fetch || !navigator.onLine) { toast("Connect to the internet, then try again."); return; }
+      cu.textContent = "Checking\u2026";
+      fetch("index.html?ts=" + Date.now(), { cache: "no-store" }).then(function (r) { return r.text(); }).then(function (html) {
+        var m = html.match(/APP_VERSION\s*=\s*(\d+)/), latest = m ? parseInt(m[1], 10) : 0, cur = parseInt(window.APP_VERSION || "0", 10);
+        if (latest > cur) { toast("Updating to version " + latest + "\u2026"); setTimeout(function () { location.replace(location.pathname + "?v=" + latest); }, 700); }
+        else { cu.textContent = "Check for updates"; toast("You are on the latest version"); }
+      }).catch(function () { cu.textContent = "Check for updates"; toast("Could not check right now. Try again later."); });
+    };
     Array.prototype.forEach.call(document.querySelectorAll("[data-sec]"), function (b) { b.onclick = function () { var id = b.getAttribute("data-sec"); state.settingsOpen[id] = !state.settingsOpen[id]; render(); }; });
     Array.prototype.forEach.call(document.querySelectorAll("[data-toggletype]"), function (b) { b.onclick = function () { var k = b.getAttribute("data-toggletype"); var i = state.enabledTypes.indexOf(k); if (i >= 0) { if (state.enabledTypes.length > 1) state.enabledTypes.splice(i, 1); } else { state.enabledTypes = PICKER.filter(function (t) { return state.enabledTypes.indexOf(t) >= 0 || t === k; }); } save(K.enabled, state.enabledTypes); render(); }; });
     Array.prototype.forEach.call(document.querySelectorAll("[data-togglefeed]"), function (b) { b.onclick = function () { var m = b.getAttribute("data-togglefeed"); var i = state.enabledFeeds.indexOf(m); if (i >= 0) { if (state.enabledFeeds.length > 1) state.enabledFeeds.splice(i, 1); } else { state.enabledFeeds = FEED_METHODS.filter(function (t) { return state.enabledFeeds.indexOf(t) >= 0 || t === m; }); } save(K.feedmethods, state.enabledFeeds); render(); }; });
@@ -1098,6 +1159,8 @@ window.WHO_WFL = { b: { L: -0.3521, M: [2.441,2.5244,2.6077,2.6913,2.7755,2.8609
         var cur = state.days[date];
         cur.wake = cur.wake || inc.wake || "";
         cur.bed = cur.bed || inc.bed || "";
+        if (!cur.dayNote && inc.dayNote) cur.dayNote = inc.dayNote;
+        if (inc.dayTags && inc.dayTags.length) { var tu = (cur.dayTags || []).slice(); inc.dayTags.forEach(function (t) { if (tu.indexOf(t) < 0) tu.push(t); }); cur.dayTags = tu; }
         var byId = {};
         (cur.entries || []).forEach(function (e) { byId[e.id] = e; });
         (inc.entries || []).forEach(function (e) { var ex = byId[e.id]; if (!ex || (e.updated || 0) > (ex.updated || 0)) byId[e.id] = e; });
@@ -1125,6 +1188,7 @@ window.WHO_WFL = { b: { L: -0.3521, M: [2.441,2.5244,2.6077,2.6913,2.7755,2.8609
     if (Array.isArray(d.custom)) { d.custom.forEach(function (c) { if (c && c.key) { if (!CUSTOM.some(function (x) { return x.key === c.key; })) CUSTOM.push({ key: c.key, label: c.label, group: c.group, icon: c.icon }); TYPES[c.key] = { label: c.label || "Custom", icon: c.icon || "\ud83d\udcdd" }; if (PICKER.indexOf(c.key) < 0) PICKER.push(c.key); } }); save(K.custom, CUSTOM); }
     if (d.photos && typeof d.photos === "object") { Object.keys(d.photos).forEach(function (pid) { var v = d.photos[pid]; if (v) { photoCache[pid] = v; idbPut(pid, v); } }); }
     migratePhotos();
+    state.welcomed = true; save(K.welcomed, true);
   }
 
   // ---------- save photos to Files (offline zip, store method) ----------
@@ -1182,7 +1246,7 @@ window.WHO_WFL = { b: { L: -0.3521, M: [2.441,2.5244,2.6077,2.6913,2.7755,2.8609
 </script>
 <script>
 (function () {
-  var APP_VERSION = 54;
+  var APP_VERSION = 56; window.APP_VERSION = APP_VERSION;
   try {
     if (navigator.onLine) {
       fetch("index.html?ts=" + Date.now(), { cache: "no-store" }).then(function (r) { return r.text(); }).then(function (html) {
