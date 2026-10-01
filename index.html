@@ -18,13 +18,13 @@
 :root{
   --bg:#F5F1E8; --card:#ffffff; --field:#fdfbf6; --soft:#EDE7D9; --tint:#EAF1EA;
   --line:#E2DACB; --ink:#37352D; --muted:#8C8576; --primary:#3F6B52; --clay:#C2774F;
-  --danger:#C57A7A; --tip:#F4EDE2; --tipgood:#E9F0E7; --shadow:rgba(63,107,82,0.09); --fabbg:#CDE0D2; --fabink:#2F5A45;
+  --danger:#C57A7A; --tip:#F4EDE2; --tipgood:#E9F0E7; --shadow:rgba(63,107,82,0.09); --sleepfill:#C8D3E2; --fabbg:#CDE0D2; --fabink:#2F5A45;
 }
 @media (prefers-color-scheme: dark){
   :root{
     --bg:#1B1A17; --card:#262420; --field:#2E2B24; --soft:#302C25; --tint:#232A24;
     --line:#3A362E; --ink:#ECE6D9; --muted:#A69E8E; --primary:#5C9273; --clay:#D08A61;
-    --danger:#D68C8C; --tip:#2E2A22; --tipgood:#233026; --shadow:rgba(0,0,0,0.35); --fabbg:#33503F; --fabink:#DCEFE1;
+    --danger:#D68C8C; --tip:#2E2A22; --tipgood:#233026; --shadow:rgba(0,0,0,0.35); --sleepfill:#3B4756; --fabbg:#33503F; --fabink:#DCEFE1;
   }
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
@@ -50,7 +50,23 @@ input.fld,select.fld{width:100%;border:1.5px solid var(--line);border-radius:14p
 input.fld:focus,select.fld:focus{outline:none;border-color:var(--primary);}
 .label{font-size:12px;font-weight:800;color:var(--primary);text-transform:uppercase;letter-spacing:.6px;margin:0 0 8px;}
 .preset{border:none;background:var(--soft);border-radius:20px;padding:7px 13px;font-size:13px;font-weight:600;cursor:pointer;color:var(--ink);}
-.add{width:100%;border:none;background:var(--primary);color:#fff;border-radius:16px;padding:14px;font-size:15px;font-weight:800;cursor:pointer;margin-top:12px;box-shadow:0 3px 10px var(--shadow);}
+.add{width:100%;border:none;background:var(--primary);color:#fff;border-radius:16px;padding:16px;font-size:16px;font-weight:800;cursor:pointer;margin-top:14px;box-shadow:0 5px 16px rgba(63,107,82,0.3);}
+.sheet .typebtn{padding:8px 10px;font-size:12.5px;gap:4px;}
+.sheet .pillrow{gap:6px;}
+.sexcards{display:flex;gap:10px;margin-top:6px;}
+.sexcard{flex:1;border:1.5px solid var(--line);border-radius:16px;padding:14px 10px;text-align:center;background:var(--card);cursor:pointer;font-family:inherit;color:var(--ink);display:flex;flex-direction:column;align-items:center;gap:4px;}
+.sexcard .em{font-size:30px;line-height:1;font-weight:800;}
+.sexcard .lb{font-size:13px;font-weight:800;}
+.sexcard.on{border-color:var(--primary);background:var(--tint);color:var(--primary);box-shadow:0 0 0 2px var(--tint) inset;}
+.toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translate(-50%,10px);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:14px;font-size:13px;font-weight:700;opacity:0;transition:opacity .25s,transform .25s;z-index:950;pointer-events:none;max-width:90%;text-align:center;}
+.toast.show{opacity:1;transform:translate(-50%,0);}
+.grouplabel{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin:12px 0 6px;}
+.grouplabel:first-child{margin-top:2px;}
+.lg{display:inline-block;width:10px;height:10px;border-radius:50%;vertical-align:middle;margin-right:5px;}
+.sechead{width:calc(100% - 32px);margin:4px 16px 10px;border:none;background:var(--card);border-radius:18px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;text-align:left;cursor:pointer;color:var(--ink);font-family:inherit;box-shadow:0 3px 16px var(--shadow);}
+.sectitle{font-size:15px;font-weight:800;display:block;}
+.sec{margin-bottom:6px;}
+.chipbtn{border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:14px;padding:9px 13px;font-size:13px;font-weight:700;cursor:pointer;}
 .quick{display:flex;gap:9px;}
 .quick button{flex:1;border:1.5px solid var(--line);background:var(--card);border-radius:16px;padding:13px 8px;cursor:pointer;font-size:13px;font-weight:700;color:var(--ink);}
 .quick button.set{background:var(--tint);border-color:transparent;}
@@ -93,9 +109,10 @@ table.gr td{padding:9px 4px;border-top:1px solid var(--soft);}
 .logcircle{width:62px;height:62px;border-radius:50%;border:none;background:var(--fabbg);color:var(--fabink);font-size:34px;font-weight:700;line-height:1;cursor:pointer;box-shadow:0 4px 14px rgba(63,107,82,0.2);display:flex;align-items:center;justify-content:center;}
 .logcircle:active{transform:scale(0.94);}
 .logtoplabel{font-size:13px;font-weight:800;color:var(--primary);}
-.daylabelbtn{border:none;background:none;color:var(--ink);font-family:inherit;font-size:15px;font-weight:800;cursor:pointer;padding:4px 8px;border-radius:10px;}
+.daylabelbtn{border:none;background:var(--soft);color:var(--ink);font-family:inherit;font-size:15px;font-weight:800;cursor:pointer;padding:6px 12px;border-radius:12px;}
 .daylabelbtn:active{background:var(--soft);}
 .daylabelbtn .caret{font-size:11px;color:var(--muted);}
+.photobtn{border:1.5px dashed var(--line);background:var(--card);color:var(--muted);border-radius:14px;padding:10px 14px;font-size:13px;font-weight:700;cursor:pointer;}
 .sheetbg{position:fixed;inset:0;background:rgba(20,18,14,0.45);z-index:900;}
 .sheet{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:901;width:calc(100% - 32px);max-width:460px;background:var(--card);border-radius:22px;max-height:86vh;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:18px;box-shadow:0 20px 50px rgba(0,0,0,0.32);}
 .sheethead{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
@@ -112,7 +129,10 @@ table.gr td{padding:9px 4px;border-top:1px solid var(--soft);}
 <body>
 <div id="app"></div>
 <script>/* WHO Child Growth Standards (0-60 months) LMS parameters. Source: WHO, via pygrowup tables. */
-window.WHO_LMS={"wfa_b":[[0.3487,3.3464,0.14602],[0.2297,4.4709,0.13395],[0.197,5.5675,0.12385],[0.1738,6.3762,0.11727],[0.1553,7.0023,0.11316],[0.1395,7.5105,0.1108],[0.1257,7.934,0.10958],[0.1134,8.297,0.10902],[0.1021,8.6151,0.10882],[0.0917,8.9014,0.10881],[0.082,9.1649,0.10891],[0.073,9.4122,0.10906],[0.0644,9.6479,0.10925],[0.0563,9.8749,0.10949],[0.0487,10.0953,0.10976],[0.0413,10.3108,0.11007],[0.0343,10.5228,0.11041],[0.0275,10.7319,0.11079],[0.0211,10.9385,0.11119],[0.0148,11.143,0.11164],[0.0087,11.3462,0.11211],[0.0029,11.5486,0.11261],[-0.0028,11.7504,0.11314],[-0.0083,11.9514,0.11369],[-0.0137,12.1515,0.11426],[-0.0189,12.3502,0.11485],[-0.024,12.5466,0.11544],[-0.0289,12.7401,0.11604],[-0.0337,12.9303,0.11664],[-0.0385,13.1169,0.11723],[-0.0431,13.3,0.11781],[-0.0476,13.4798,0.11839],[-0.052,13.6567,0.11896],[-0.0564,13.8309,0.11953],[-0.0606,14.0031,0.12008],[-0.0648,14.1736,0.12062],[-0.0689,14.3429,0.12116],[-0.0729,14.5113,0.12168],[-0.0769,14.6791,0.1222],[-0.0808,14.8466,0.12271],[-0.0846,15.014,0.12322],[-0.0883,15.1813,0.12373],[-0.092,15.3486,0.12425],[-0.0957,15.5158,0.12478],[-0.0993,15.6828,0.12531],[-0.1028,15.8497,0.12586],[-0.1063,16.0163,0.12643],[-0.1097,16.1827,0.127],[-0.1131,16.3489,0.12759],[-0.1165,16.515,0.12819],[-0.1198,16.6811,0.1288],[-0.123,16.8471,0.12943],[-0.1262,17.0132,0.13005],[-0.1294,17.1792,0.13069],[-0.1325,17.3452,0.13133],[-0.1356,17.5111,0.13197],[-0.1387,17.6768,0.13261],[-0.1417,17.8422,0.13325],[-0.1447,18.0073,0.13389],[-0.1477,18.1722,0.13453],[-0.1506,18.3366,0.13517]],"wfa_g":[[0.3809,3.2322,0.14171],[0.1714,4.1873,0.13724],[0.0962,5.1282,0.13],[0.0402,5.8458,0.12619],[-0.005,6.4237,0.12402],[-0.043,6.8985,0.12274],[-0.0756,7.297,0.12204],[-0.1039,7.6422,0.12178],[-0.1288,7.9487,0.12181],[-0.1507,8.2254,0.12199],[-0.17,8.48,0.12223],[-0.1872,8.7192,0.12247],[-0.2024,8.9481,0.12268],[-0.2158,9.1699,0.12283],[-0.2278,9.387,0.12294],[-0.2384,9.6008,0.12299],[-0.2478,9.8124,0.12303],[-0.2562,10.0226,0.12306],[-0.2637,10.2315,0.12309],[-0.2703,10.4393,0.12315],[-0.2762,10.6464,0.12323],[-0.2815,10.8534,0.12335],[-0.2862,11.0608,0.1235],[-0.2903,11.2688,0.12369],[-0.2941,11.4775,0.1239],[-0.2975,11.6864,0.12414],[-0.3005,11.8947,0.12441],[-0.3032,12.1015,0.12472],[-0.3057,12.3059,0.12506],[-0.308,12.5073,0.12545],[-0.3101,12.7055,0.12587],[-0.312,12.9006,0.12633],[-0.3138,13.093,0.12683],[-0.3155,13.2837,0.12737],[-0.3171,13.4731,0.12794],[-0.3186,13.6618,0.12855],[-0.3201,13.8503,0.12919],[-0.3216,14.0385,0.12988],[-0.323,14.2265,0.13059],[-0.3243,14.414,0.13135],[-0.3257,14.601,0.13213],[-0.327,14.7873,0.13293],[-0.3283,14.9727,0.13376],[-0.3296,15.1573,0.1346],[-0.3309,15.341,0.13545],[-0.3322,15.524,0.1363],[-0.3335,15.7064,0.13716],[-0.3348,15.8882,0.138],[-0.3361,16.0697,0.13884],[-0.3374,16.2511,0.13968],[-0.3387,16.4322,0.14051],[-0.34,16.6133,0.14132],[-0.3414,16.7942,0.14213],[-0.3427,16.9748,0.14293],[-0.344,17.1551,0.14371],[-0.3453,17.3347,0.14448],[-0.3466,17.5136,0.14525],[-0.3479,17.6916,0.146],[-0.3492,17.8686,0.14675],[-0.3505,18.0445,0.14748],[-0.3518,18.2193,0.14821]],"hfa_b":[[1.0,49.8842,0.03795],[1.0,54.7244,0.03557],[1.0,58.4249,0.03424],[1.0,61.4292,0.03328],[1.0,63.886,0.03257],[1.0,65.9026,0.03204],[1.0,67.6236,0.03165],[1.0,69.1645,0.03139],[1.0,70.5994,0.03124],[1.0,71.9687,0.03117],[1.0,73.2812,0.03118],[1.0,74.5388,0.03125],[1.0,75.7488,0.03137],[1.0,76.9186,0.03154],[1.0,78.0497,0.03174],[1.0,79.1458,0.03197],[1.0,80.2113,0.03222],[1.0,81.2487,0.0325],[1.0,82.2587,0.03279],[1.0,83.2418,0.0331],[1.0,84.1996,0.03342],[1.0,85.1348,0.03376],[1.0,86.0477,0.0341],[1.0,86.941,0.03445],[1.0,87.1161,0.03507],[1.0,87.972,0.03542],[1.0,88.8065,0.03576],[1.0,89.6197,0.0361],[1.0,90.412,0.03642],[1.0,91.1828,0.03674],[1.0,91.9327,0.03704],[1.0,92.6631,0.03733],[1.0,93.3753,0.03761],[1.0,94.0711,0.03787],[1.0,94.7532,0.03812],[1.0,95.4236,0.03836],[1.0,96.0835,0.03858],[1.0,96.7337,0.03879],[1.0,97.3749,0.039],[1.0,98.0073,0.03919],[1.0,98.631,0.03937],[1.0,99.2459,0.03954],[1.0,99.8515,0.03971],[1.0,100.4485,0.03986],[1.0,101.0374,0.04002],[1.0,101.6186,0.04016],[1.0,102.1933,0.04031],[1.0,102.7625,0.04045],[1.0,103.3273,0.04059],[1.0,103.8886,0.04073],[1.0,104.4473,0.04086],[1.0,105.0041,0.041],[1.0,105.5596,0.04113],[1.0,106.1138,0.04126],[1.0,106.6668,0.04139],[1.0,107.2188,0.04152],[1.0,107.7697,0.04165],[1.0,108.3198,0.04177],[1.0,108.8689,0.0419],[1.0,109.417,0.04202],[1.0,109.9638,0.04214]],"hfa_g":[[1.0,49.1477,0.0379],[1.0,53.6872,0.0364],[1.0,57.0673,0.03568],[1.0,59.8029,0.0352],[1.0,62.0899,0.03486],[1.0,64.0301,0.03463],[1.0,65.7311,0.03448],[1.0,67.2873,0.03441],[1.0,68.7498,0.0344],[1.0,70.1435,0.03444],[1.0,71.4818,0.03452],[1.0,72.771,0.03464],[1.0,74.015,0.03479],[1.0,75.2176,0.03496],[1.0,76.3817,0.03514],[1.0,77.5099,0.03534],[1.0,78.6055,0.03555],[1.0,79.671,0.03576],[1.0,80.7079,0.03598],[1.0,81.7182,0.0362],[1.0,82.7036,0.03643],[1.0,83.6654,0.03666],[1.0,84.604,0.03688],[1.0,85.5202,0.03711],[1.0,85.7153,0.03764],[1.0,86.5904,0.03786],[1.0,87.4462,0.03808],[1.0,88.283,0.0383],[1.0,89.1004,0.03851],[1.0,89.8991,0.03872],[1.0,90.6797,0.03893],[1.0,91.443,0.03913],[1.0,92.1906,0.03933],[1.0,92.9239,0.03952],[1.0,93.6444,0.03971],[1.0,94.3533,0.03989],[1.0,95.0515,0.04006],[1.0,95.7399,0.04024],[1.0,96.4187,0.04041],[1.0,97.0885,0.04057],[1.0,97.7493,0.04073],[1.0,98.4015,0.04089],[1.0,99.0448,0.04105],[1.0,99.6795,0.0412],[1.0,100.3058,0.04135],[1.0,100.9238,0.0415],[1.0,101.5337,0.04164],[1.0,102.136,0.04179],[1.0,102.7312,0.04193],[1.0,103.3197,0.04206],[1.0,103.9021,0.0422],[1.0,104.4786,0.04233],[1.0,105.0494,0.04246],[1.0,105.6148,0.04259],[1.0,106.1748,0.04272],[1.0,106.7295,0.04285],[1.0,107.2788,0.04298],[1.0,107.8227,0.0431],[1.0,108.3613,0.04322],[1.0,108.8948,0.04334],[1.0,109.4233,0.04347]]};</script>
+window.WHO_LMS={"wfa_b":[[0.3487,3.3464,0.14602],[0.2297,4.4709,0.13395],[0.197,5.5675,0.12385],[0.1738,6.3762,0.11727],[0.1553,7.0023,0.11316],[0.1395,7.5105,0.1108],[0.1257,7.934,0.10958],[0.1134,8.297,0.10902],[0.1021,8.6151,0.10882],[0.0917,8.9014,0.10881],[0.082,9.1649,0.10891],[0.073,9.4122,0.10906],[0.0644,9.6479,0.10925],[0.0563,9.8749,0.10949],[0.0487,10.0953,0.10976],[0.0413,10.3108,0.11007],[0.0343,10.5228,0.11041],[0.0275,10.7319,0.11079],[0.0211,10.9385,0.11119],[0.0148,11.143,0.11164],[0.0087,11.3462,0.11211],[0.0029,11.5486,0.11261],[-0.0028,11.7504,0.11314],[-0.0083,11.9514,0.11369],[-0.0137,12.1515,0.11426],[-0.0189,12.3502,0.11485],[-0.024,12.5466,0.11544],[-0.0289,12.7401,0.11604],[-0.0337,12.9303,0.11664],[-0.0385,13.1169,0.11723],[-0.0431,13.3,0.11781],[-0.0476,13.4798,0.11839],[-0.052,13.6567,0.11896],[-0.0564,13.8309,0.11953],[-0.0606,14.0031,0.12008],[-0.0648,14.1736,0.12062],[-0.0689,14.3429,0.12116],[-0.0729,14.5113,0.12168],[-0.0769,14.6791,0.1222],[-0.0808,14.8466,0.12271],[-0.0846,15.014,0.12322],[-0.0883,15.1813,0.12373],[-0.092,15.3486,0.12425],[-0.0957,15.5158,0.12478],[-0.0993,15.6828,0.12531],[-0.1028,15.8497,0.12586],[-0.1063,16.0163,0.12643],[-0.1097,16.1827,0.127],[-0.1131,16.3489,0.12759],[-0.1165,16.515,0.12819],[-0.1198,16.6811,0.1288],[-0.123,16.8471,0.12943],[-0.1262,17.0132,0.13005],[-0.1294,17.1792,0.13069],[-0.1325,17.3452,0.13133],[-0.1356,17.5111,0.13197],[-0.1387,17.6768,0.13261],[-0.1417,17.8422,0.13325],[-0.1447,18.0073,0.13389],[-0.1477,18.1722,0.13453],[-0.1506,18.3366,0.13517]],"wfa_g":[[0.3809,3.2322,0.14171],[0.1714,4.1873,0.13724],[0.0962,5.1282,0.13],[0.0402,5.8458,0.12619],[-0.005,6.4237,0.12402],[-0.043,6.8985,0.12274],[-0.0756,7.297,0.12204],[-0.1039,7.6422,0.12178],[-0.1288,7.9487,0.12181],[-0.1507,8.2254,0.12199],[-0.17,8.48,0.12223],[-0.1872,8.7192,0.12247],[-0.2024,8.9481,0.12268],[-0.2158,9.1699,0.12283],[-0.2278,9.387,0.12294],[-0.2384,9.6008,0.12299],[-0.2478,9.8124,0.12303],[-0.2562,10.0226,0.12306],[-0.2637,10.2315,0.12309],[-0.2703,10.4393,0.12315],[-0.2762,10.6464,0.12323],[-0.2815,10.8534,0.12335],[-0.2862,11.0608,0.1235],[-0.2903,11.2688,0.12369],[-0.2941,11.4775,0.1239],[-0.2975,11.6864,0.12414],[-0.3005,11.8947,0.12441],[-0.3032,12.1015,0.12472],[-0.3057,12.3059,0.12506],[-0.308,12.5073,0.12545],[-0.3101,12.7055,0.12587],[-0.312,12.9006,0.12633],[-0.3138,13.093,0.12683],[-0.3155,13.2837,0.12737],[-0.3171,13.4731,0.12794],[-0.3186,13.6618,0.12855],[-0.3201,13.8503,0.12919],[-0.3216,14.0385,0.12988],[-0.323,14.2265,0.13059],[-0.3243,14.414,0.13135],[-0.3257,14.601,0.13213],[-0.327,14.7873,0.13293],[-0.3283,14.9727,0.13376],[-0.3296,15.1573,0.1346],[-0.3309,15.341,0.13545],[-0.3322,15.524,0.1363],[-0.3335,15.7064,0.13716],[-0.3348,15.8882,0.138],[-0.3361,16.0697,0.13884],[-0.3374,16.2511,0.13968],[-0.3387,16.4322,0.14051],[-0.34,16.6133,0.14132],[-0.3414,16.7942,0.14213],[-0.3427,16.9748,0.14293],[-0.344,17.1551,0.14371],[-0.3453,17.3347,0.14448],[-0.3466,17.5136,0.14525],[-0.3479,17.6916,0.146],[-0.3492,17.8686,0.14675],[-0.3505,18.0445,0.14748],[-0.3518,18.2193,0.14821]],"hfa_b":[[1.0,49.8842,0.03795],[1.0,54.7244,0.03557],[1.0,58.4249,0.03424],[1.0,61.4292,0.03328],[1.0,63.886,0.03257],[1.0,65.9026,0.03204],[1.0,67.6236,0.03165],[1.0,69.1645,0.03139],[1.0,70.5994,0.03124],[1.0,71.9687,0.03117],[1.0,73.2812,0.03118],[1.0,74.5388,0.03125],[1.0,75.7488,0.03137],[1.0,76.9186,0.03154],[1.0,78.0497,0.03174],[1.0,79.1458,0.03197],[1.0,80.2113,0.03222],[1.0,81.2487,0.0325],[1.0,82.2587,0.03279],[1.0,83.2418,0.0331],[1.0,84.1996,0.03342],[1.0,85.1348,0.03376],[1.0,86.0477,0.0341],[1.0,86.941,0.03445],[1.0,87.1161,0.03507],[1.0,87.972,0.03542],[1.0,88.8065,0.03576],[1.0,89.6197,0.0361],[1.0,90.412,0.03642],[1.0,91.1828,0.03674],[1.0,91.9327,0.03704],[1.0,92.6631,0.03733],[1.0,93.3753,0.03761],[1.0,94.0711,0.03787],[1.0,94.7532,0.03812],[1.0,95.4236,0.03836],[1.0,96.0835,0.03858],[1.0,96.7337,0.03879],[1.0,97.3749,0.039],[1.0,98.0073,0.03919],[1.0,98.631,0.03937],[1.0,99.2459,0.03954],[1.0,99.8515,0.03971],[1.0,100.4485,0.03986],[1.0,101.0374,0.04002],[1.0,101.6186,0.04016],[1.0,102.1933,0.04031],[1.0,102.7625,0.04045],[1.0,103.3273,0.04059],[1.0,103.8886,0.04073],[1.0,104.4473,0.04086],[1.0,105.0041,0.041],[1.0,105.5596,0.04113],[1.0,106.1138,0.04126],[1.0,106.6668,0.04139],[1.0,107.2188,0.04152],[1.0,107.7697,0.04165],[1.0,108.3198,0.04177],[1.0,108.8689,0.0419],[1.0,109.417,0.04202],[1.0,109.9638,0.04214]],"hfa_g":[[1.0,49.1477,0.0379],[1.0,53.6872,0.0364],[1.0,57.0673,0.03568],[1.0,59.8029,0.0352],[1.0,62.0899,0.03486],[1.0,64.0301,0.03463],[1.0,65.7311,0.03448],[1.0,67.2873,0.03441],[1.0,68.7498,0.0344],[1.0,70.1435,0.03444],[1.0,71.4818,0.03452],[1.0,72.771,0.03464],[1.0,74.015,0.03479],[1.0,75.2176,0.03496],[1.0,76.3817,0.03514],[1.0,77.5099,0.03534],[1.0,78.6055,0.03555],[1.0,79.671,0.03576],[1.0,80.7079,0.03598],[1.0,81.7182,0.0362],[1.0,82.7036,0.03643],[1.0,83.6654,0.03666],[1.0,84.604,0.03688],[1.0,85.5202,0.03711],[1.0,85.7153,0.03764],[1.0,86.5904,0.03786],[1.0,87.4462,0.03808],[1.0,88.283,0.0383],[1.0,89.1004,0.03851],[1.0,89.8991,0.03872],[1.0,90.6797,0.03893],[1.0,91.443,0.03913],[1.0,92.1906,0.03933],[1.0,92.9239,0.03952],[1.0,93.6444,0.03971],[1.0,94.3533,0.03989],[1.0,95.0515,0.04006],[1.0,95.7399,0.04024],[1.0,96.4187,0.04041],[1.0,97.0885,0.04057],[1.0,97.7493,0.04073],[1.0,98.4015,0.04089],[1.0,99.0448,0.04105],[1.0,99.6795,0.0412],[1.0,100.3058,0.04135],[1.0,100.9238,0.0415],[1.0,101.5337,0.04164],[1.0,102.136,0.04179],[1.0,102.7312,0.04193],[1.0,103.3197,0.04206],[1.0,103.9021,0.0422],[1.0,104.4786,0.04233],[1.0,105.0494,0.04246],[1.0,105.6148,0.04259],[1.0,106.1748,0.04272],[1.0,106.7295,0.04285],[1.0,107.2788,0.04298],[1.0,107.8227,0.0431],[1.0,108.3613,0.04322],[1.0,108.8948,0.04334],[1.0,109.4233,0.04347]]};
+
+// WHO 2006 weight-for-length (birth to 2 y), recumbent length 45.0-110.0 cm in 0.5 cm steps. L constant per sex. Source: WHO Child Growth Standards (via CDC/Merck LMS tables).
+window.WHO_WFL = { b: { L: -0.3521, M: [2.441,2.5244,2.6077,2.6913,2.7755,2.8609,2.948,3.0377,3.1308,3.2276,3.3278,3.4311,3.5376,3.6477,3.762,3.8814,4.006,4.1354,4.2693,4.4066,4.5467,4.6892,4.8338,4.9796,5.1259,5.2721,5.418,5.5632,5.7074,5.8501,5.9907,6.1284,6.2632,6.3954,6.5251,6.6527,6.7786,6.9028,7.0255,7.1467,7.2666,7.3854,7.5034,7.6206,7.737,7.8526,7.9674,8.0816,8.1955,8.3092,8.4227,8.5358,8.648,8.7594,8.8697,8.9788,9.0865,9.1927,9.2974,9.401,9.5032,9.6041,9.7033,9.8007,9.8963,9.9902,10.0827,10.1741,10.2649,10.3558,10.4475,10.5405,10.6352,10.7322,10.8321,10.935,11.0415,11.1516,11.2651,11.3817,11.5007,11.6218,11.7444,11.8678,11.9916,12.1152,12.2382,12.3603,12.4815,12.6017,12.7209,12.8392,12.9569,13.0742,13.191,13.3075,13.4239,13.5404,13.6572,13.7746,13.8928,14.012,14.1325,14.2544,14.3782,14.5038,14.6316,14.7614,14.8934,15.0275,15.1637,15.3018,15.4419,15.5838,15.7276,15.8732,16.0206,16.1697,16.3204,16.4728,16.6268,16.7826,16.9401,17.0995,17.2607,17.4237,17.5885,17.7553,17.9242,18.0954,18.2689], S: [0.09182,0.09153,0.09124,0.09094,0.09065,0.09036,0.09007,0.08977,0.08948,0.08919,0.0889,0.08861,0.08831,0.08801,0.08771,0.08741,0.08711,0.08681,0.08651,0.08621,0.08592,0.08563,0.08535,0.08507,0.08481,0.08455,0.0843,0.08406,0.08383,0.08362,0.08342,0.08324,0.08308,0.08292,0.08279,0.08266,0.08255,0.08245,0.08236,0.08229,0.08223,0.08218,0.08215,0.08213,0.08212,0.08212,0.08214,0.08216,0.08219,0.08224,0.08229,0.08235,0.08241,0.08248,0.08254,0.08262,0.08269,0.08276,0.08283,0.08289,0.08295,0.08301,0.08307,0.08311,0.08314,0.08317,0.08318,0.08318,0.08316,0.08313,0.08308,0.08301,0.08293,0.08284,0.08273,0.0826,0.08246,0.08231,0.08215,0.08198,0.08181,0.08163,0.08145,0.08128,0.08111,0.08096,0.08082,0.08069,0.08058,0.08048,0.08041,0.08034,0.0803,0.08026,0.08025,0.08025,0.08026,0.08029,0.08034,0.0804,0.08047,0.08056,0.08067,0.08078,0.08092,0.08106,0.08122,0.08139,0.08157,0.08177,0.08198,0.0822,0.08243,0.08267,0.08292,0.08317,0.08343,0.0837,0.08397,0.08425,0.08453,0.08481,0.0851,0.08539,0.08568,0.08599,0.08629,0.0866,0.08691,0.08723,0.08755] }, g: { L: -0.3833, M: [2.4607,2.5457,2.6306,2.7155,2.8007,2.8867,2.9741,3.0636,3.156,3.252,3.3518,3.4557,3.5636,3.6754,3.7911,3.9105,4.0332,4.1591,4.2875,4.4179,4.5498,4.6827,4.8162,4.95,5.0837,5.2173,5.3507,5.4834,5.6151,5.7454,5.8742,6.0014,6.127,6.2511,6.3738,6.4948,6.6144,6.7328,6.8501,6.9662,7.0812,7.195,7.3076,7.4189,7.5288,7.6375,7.7448,7.8509,7.9559,8.0599,8.163,8.2651,8.3666,8.4676,8.5679,8.6674,8.7661,8.8638,8.9601,9.0552,9.149,9.2418,9.3337,9.4252,9.5166,9.6086,9.7015,9.7957,9.8915,9.9892,10.0891,10.1916,10.2965,10.4041,10.514,10.6263,10.741,10.8578,10.9767,11.0974,11.2198,11.3435,11.4684,11.594,11.7201,11.8461,11.972,12.0976,12.2229,12.3477,12.4723,12.5965,12.7205,12.8443,12.9681,13.092,13.2158,13.3399,13.4643,13.5892,13.7146,13.8408,13.9676,14.0953,14.2239,14.3537,14.4848,14.6174,14.7519,14.8882,15.0267,15.1676,15.3108,15.4564,15.6046,15.7553,15.9087,16.0645,16.2229,16.3837,16.547,16.7129,16.8814,17.0527,17.2269,17.4039,17.5839,17.7668,17.9526,18.1412,18.3324], S: [0.09029,0.09033,0.09037,0.0904,0.09044,0.09048,0.09052,0.09056,0.0906,0.09064,0.09068,0.09072,0.09076,0.0908,0.09085,0.09089,0.09093,0.09098,0.09102,0.09106,0.0911,0.09114,0.09118,0.09121,0.09125,0.09128,0.0913,0.09132,0.09134,0.09135,0.09136,0.09137,0.09137,0.09136,0.09135,0.09133,0.09131,0.09129,0.09126,0.09123,0.09119,0.09115,0.0911,0.09106,0.09101,0.09096,0.0909,0.09085,0.09079,0.09074,0.09068,0.09062,0.09056,0.0905,0.09043,0.09037,0.09031,0.09025,0.09018,0.09012,0.09005,0.08999,0.08992,0.08985,0.08979,0.08972,0.08965,0.08959,0.08952,0.08946,0.0894,0.08934,0.08928,0.08923,0.08918,0.08914,0.0891,0.08906,0.08903,0.089,0.08898,0.08897,0.08895,0.08895,0.08895,0.08895,0.08896,0.08898,0.089,0.08903,0.08906,0.08909,0.08913,0.08918,0.08923,0.08928,0.08934,0.08941,0.08948,0.08955,0.08963,0.08972,0.08981,0.0899,0.09,0.0901,0.09021,0.09033,0.09044,0.09057,0.09069,0.09083,0.09096,0.0911,0.09125,0.09139,0.09155,0.0917,0.09186,0.09203,0.09219,0.09236,0.09254,0.09271,0.09289,0.09307,0.09326,0.09344,0.09363,0.09382,0.09401] } };</script>
 <script>
 /* Daily Log — standalone offline app. Saves to device localStorage. Schema 2. */
 (function () {
@@ -123,10 +143,11 @@ window.WHO_LMS={"wfa_b":[[0.3487,3.3464,0.14602],[0.2297,4.4709,0.13395],[0.197,
     child: "nibble:child", days: "nibble:days", growth: "nibble:growth",
     units: "nibble:units", foods: "nibble:foods", appname: "nibble:appname",
     tempunit: "nibble:tempunit", prev: "nibble:prevbackup",
-    enabled: "nibble:enabled", feedmethods: "nibble:feedmethods", lastbackup: "nibble:lastbackup", custom: "nibble:custom"
+    enabled: "nibble:enabled", feedmethods: "nibble:feedmethods", lastbackup: "nibble:lastbackup", custom: "nibble:custom", feeddetail: "nibble:feeddetail", eggpreps: "nibble:eggpreps", welcomed: "nibble:welcomed"
   };
   function load(k, fb) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : fb; } catch (e) { return fb; } }
-  function save(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { return false; } }
+  var saveWarned = false;
+  function save(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { if (!saveWarned) { saveWarned = true; alert("Storage is full or blocked, so this change could not be saved. Please export a backup from Settings and free up space."); } return false; } }
 
   function pad(n) { return String(n).padStart(2, "0"); }
   function todayKey() { var d = new Date(); return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
@@ -135,10 +156,10 @@ window.WHO_LMS={"wfa_b":[[0.3487,3.3464,0.14602],[0.2297,4.4709,0.13395],[0.197,
   function shortDate(key) { var p = key.split("-").map(Number); var d = new Date(p[0], p[1] - 1, p[2]); return d.toLocaleDateString(undefined, { weekday: "short", day: "numeric", month: "short" }); }
   function shiftDay(key, delta) { var p = key.split("-").map(Number); var d = new Date(p[0], p[1] - 1, p[2]); d.setDate(d.getDate() + delta); return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
   function to12h(t) { if (!t) return ""; var p = t.split(":").map(Number); var ap = p[0] >= 12 ? "pm" : "am"; var hh = p[0] % 12 === 0 ? 12 : p[0] % 12; return hh + ":" + pad(p[1]) + " " + ap; }
-  function suggestSleepKind(t) { var h = parseInt((t || "12").split(":")[0], 10); return (h >= 19 || h < 6) ? "Night sleep" : "Day nap"; }
   function sleepMinutes(start, end) { if (!start || !end) return null; var a = start.split(":").map(Number), b = end.split(":").map(Number); var m = (b[0] * 60 + b[1]) - (a[0] * 60 + a[1]); if (m < 0) m += 1440; return m; }
   function fmtDur(min) { if (min == null) return ""; min = Math.round(min); var h = Math.floor(min / 60), m = min % 60; return (h ? h + "h" : "") + (h && m ? " " : "") + ((m || !h) ? m + "m" : ""); }
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  function toast(msg) { try { var t = document.createElement("div"); t.className = "toast"; t.textContent = msg; document.body.appendChild(t); setTimeout(function () { t.className = "toast show"; }, 10); setTimeout(function () { t.className = "toast"; setTimeout(function () { if (t.parentNode) t.parentNode.removeChild(t); }, 300); }, 1800); } catch (e) {} }
   function uid() { return Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 7); }
 
   // ---------- photos: IndexedDB store (keeps large images out of localStorage) ----------
@@ -175,12 +196,12 @@ window.WHO_LMS={"wfa_b":[[0.3487,3.3464,0.14602],[0.2297,4.4709,0.13395],[0.197,
   // ---- PICKER is the subset shown as buttons. Removing a type from PICKER never deletes stored entries.
   var TYPES = {
     wake: { label: "Woke up", icon: "☀️", color: "#E8B34C" }, bed: { label: "Bedtime", icon: "🌙", color: "#7E89A8" },
-    meal: { label: "Meal", icon: "🍽️", color: "#6B8E6F" }, snack: { label: "Snack", icon: "🍎", color: "#E8A87C" },
+    meal: { label: "Meal", icon: "🍽️", color: "#6B8E6F" }, snack: { label: "Snack", icon: "🥣", color: "#E8A87C" }, fruit: { label: "Fruit", icon: "🍎", color: "#D98A8A" }, puree: { label: "Puree", icon: "🥄", color: "#C9A86B" }, egg: { label: "Egg", icon: "🥚", color: "#E0B24C" },
     water: { label: "Water", icon: "💧", color: "#7FA8C9" }, drink: { label: "Drink", icon: "🥤", color: "#8FB6C9" },
     milk: { label: "Feed", icon: "🍼", color: "#C9A8D4" },
     poop: { label: "Poop", icon: "💩", color: "#B08968" }, diaper: { label: "Nappy", icon: "🧷", color: "#C7A98A" },
     symptom: { label: "Symptom", icon: "🤒", color: "#D98A8A" },
-    nap: { label: "Sleep", icon: "😴", color: "#8FA0C4" }, med: { label: "Medicine", icon: "💊", color: "#A8B0C9" },
+    nap: { label: "Nap", icon: "😴", color: "#8FA0C4" }, med: { label: "Medicine", icon: "💊", color: "#A8B0C9" },
     supplement: { label: "Supplement", icon: "🌿", color: "#7BA88A" }, vaccine: { label: "Vaccine", icon: "💉", color: "#C48CA8" },
     doctor: { label: "Doctor visit", icon: "🩺", color: "#6F9BC4" }, milestone: { label: "Milestone", icon: "⭐", color: "#E0B24C" },
     bath: { label: "Bath", icon: "🛁", color: "#8FC0C9" }, play: { label: "Play", icon: "🧸", color: "#E8A87C" },
@@ -188,21 +209,25 @@ window.WHO_LMS={"wfa_b":[[0.3487,3.3464,0.14602],[0.2297,4.4709,0.13395],[0.197,
     pumping: { label: "Pumping", icon: "🥛", color: "#BEB0D4" },
     other: { label: "Other", icon: "📝", color: "#9A9690" }
   };
-  var PICKER = ["wake", "meal", "snack", "water", "milk", "poop", "diaper", "symptom", "nap", "bed", "med", "supplement", "vaccine", "doctor", "milestone", "bath", "play", "reading", "outdoor", "pumping", "other"];
-  var DEFAULT_TYPES = ["wake", "meal", "snack", "water", "milk", "poop", "symptom", "nap", "bed", "med", "supplement", "other"];
+  var PICKER = ["wake", "meal", "snack", "fruit", "puree", "egg", "water", "milk", "poop", "diaper", "symptom", "nap", "bed", "med", "vaccine", "doctor", "other"];
+  var DEFAULT_TYPES = ["wake", "meal", "snack", "fruit", "puree", "egg", "water", "milk", "poop", "nap", "bed", "med", "other"];
   var MARKER_TYPES = ["wake", "bed"];
-  var FOOD_TYPES = ["meal", "snack", "water", "milk", "drink"];
+  var FOOD_TYPES = ["meal", "snack", "fruit", "puree", "milk", "drink"];
   var FLUID_TYPES = ["water", "milk", "drink"];
-  var SLOTS = [["Morning", "08:00"], ["Midday", "12:30"], ["Afternoon", "15:30"], ["Evening", "18:30"], ["Night", "21:00"]];
   var STOOL = ["Hard", "Normal", "Soft", "Watery"];
   var SYMPTOMS = ["Fever", "Cough", "Runny nose", "Congestion", "Vomiting", "Diarrhea", "Rash", "Sore throat", "Ear pain", "Teething", "Fussy / unwell"];
-  var FEED_METHODS = ["Breastfeed", "Formula", "Expressed milk", "Cow milk"];
+  var FEED_METHODS = ["Breastfeed", "Expressed milk", "Formula", "Cow milk"];
+  var EGG_PREPS = ["Boiled", "Omelette", "Scrambled", "Fried", "Poached", "Mashed"];
+  var GROUP_ORDER = ["Food", "Sleep", "Body", "Other"];
+  var TYPE_GROUP = { meal: "Food", snack: "Food", fruit: "Food", puree: "Food", egg: "Food", water: "Food", milk: "Food", wake: "Sleep", nap: "Sleep", bed: "Sleep", poop: "Body", diaper: "Body", symptom: "Body", med: "Body", vaccine: "Body", doctor: "Body", other: "Other" };
+  function typeGroup(k) { if (TYPE_GROUP[k]) return TYPE_GROUP[k]; var c = null; (typeof CUSTOM !== "undefined" ? CUSTOM : []).forEach(function (x) { if (x.key === k) c = x; }); return (c && c.group && GROUP_ORDER.indexOf(c.group) >= 0) ? c.group : "Other"; }
+  function groupedChips(keys, chipFn, otherExtra) { var out = ""; GROUP_ORDER.forEach(function (g) { var ks = keys.filter(function (k) { return typeGroup(k) === g; }); var extra = (g === "Other" && otherExtra) ? otherExtra : ""; if (!ks.length && !extra) return; out += '<div class="grouplabel">' + g + '</div><div class="pillrow">' + ks.map(chipFn).join("") + extra + "</div>"; }); return out; }
   var GROUPS = {
-    Fruit: ["banana", "apple", "mango", "berries", "berry", "grape", "orange", "papaya", "pear", "fruit", "juice", "watermelon"],
-    Vegetables: ["carrot", "peas", "potato", "spinach", "veg", "tomato", "beans", "broccoli", "pumpkin", "cucumber", "gourd", "veggie"],
-    Grains: ["rice", "roti", "bread", "oats", "idli", "dosa", "pasta", "poha", "upma", "wheat", "cereal", "chapati", "khichdi"],
-    Protein: ["egg", "dal", "chicken", "fish", "paneer", "lentil", "tofu", "meat", "bean", "rajma", "chana", "sprout"],
-    Dairy: ["milk", "yogurt", "curd", "cheese", "paneer", "buttermilk", "lassi"]
+    Fruit: ["banana", "apple", "mango", "berries", "berry", "grape", "orange", "papaya", "pear", "fruit", "juice", "watermelon", "chikoo", "sapota", "kiwi", "melon", "guava", "pomegranate", "anar", "dates", "avocado", "peach", "plum", "cherry", "strawberr", "blueberr"],
+    Vegetables: ["carrot", "peas", "potato", "spinach", "veg", "tomato", "beans", "broccoli", "pumpkin", "cucumber", "gourd", "veggie", "palak", "methi", "lauki", "bhindi", "okra", "beetroot", "cauliflower", "gobi", "capsicum", "sweet potato", "shakarkandi", "zucchini", "corn", "drumstick", "cabbage", "brinjal", "baingan", "turai", "tinda", "soup", "sabzi", "sabji", "bhaji", "tori"],
+    Grains: ["rice", "roti", "bread", "oats", "idli", "dosa", "pasta", "poha", "upma", "wheat", "cereal", "chapati", "khichdi", "ragi", "sooji", "rava", "suji", "dalia", "daliya", "porridge", "paratha", "thepla", "khakhra", "bhakri", "noodle", "pulao", "pongal", "sheera", "halwa", "kheer", "toast", "biscuit", "rusk", "appe", "uttapam", "chilla", "cheela", "millet", "bajra", "jowar", "sabudana", "vermicelli", "sevai", "semiya", "quinoa", "muesli", "cornflakes", "puff", "murmura", "pav"],
+    Protein: ["egg", "dal", "chicken", "fish", "paneer", "lentil", "tofu", "meat", "bean", "rajma", "chana", "sprout", "moong", "masoor", "toor", "arhar", "urad", "chole", "chhole", "sambar", "sambhar", "soya", "mutton", "prawn", "besan", "peanut", "almond", "nut", "hummus", "omelette", "omelet", "khichdi", "idli", "dosa", "pongal", "chilla", "cheela", "appe", "uttapam"],
+    Dairy: ["milk", "yogurt", "curd", "cheese", "paneer", "buttermilk", "lassi", "dahi", "chaas", "kheer", "custard", "ghee", "butter", "malai"]
   };
   function classifyGroups(text) { var t = (text || "").toLowerCase(); var f = []; Object.keys(GROUPS).forEach(function (g) { if (GROUPS[g].some(function (k) { return t.indexOf(k) >= 0; })) f.push(g); }); return f; }
 
@@ -245,10 +270,11 @@ window.WHO_LMS={"wfa_b":[[0.3487,3.3464,0.14602],[0.2297,4.4709,0.13395],[0.197,
   var state = {
     tab: "today", child: load(K.child, { name: "", dob: "", sex: "" }), days: load(K.days, {}), growth: load(K.growth, []),
     units: load(K.units, "metric"), foods: load(K.foods, {}), appname: load(K.appname, ""), tempunit: load(K.tempunit, "C"),
-    enabledTypes: load(K.enabled, DEFAULT_TYPES.slice()), enabledFeeds: load(K.feedmethods, FEED_METHODS.slice()),
-    viewDay: todayKey(), draftType: "meal", editingId: null, feedMethod: "Breastfeed", draftPhoto: "", sleepKind: "", lastBackup: load(K.lastbackup, ""), bannerDismissed: false, scrollToButtons: false, logOpen: false, historyQuery: "", insightsRange: "today", insightsFrom: "", insightsTo: ""
+    enabledTypes: load(K.enabled, DEFAULT_TYPES.slice()), enabledFeeds: load(K.feedmethods, FEED_METHODS.slice()), enabledPreps: load(K.eggpreps, ["Boiled", "Omelette"]),
+    viewDay: todayKey(), draftType: "meal", editingId: null, feedMethod: "Breastfeed", draftPhoto: "", lastBackup: load(K.lastbackup, ""), scrollToButtons: false, logOpen: false, historyQuery: "", insightsRange: "today", insightsFrom: "", insightsTo: "", feedDetail: load(K.feeddetail, false), eggCount: "1", eggPrep: "", draft: null, backupDismissed: false, trendsView: "insights", customGroup: "Other", customDraft: null, welcomed: load(K.welcomed, false), settingsOpen: { profile: true, logging: false, data: false }, pickerOpen: false
   };
   if (state.child.sex == null) state.child.sex = "";
+  if (!state.welcomed && (state.child.name || state.child.dob)) { state.welcomed = true; save(K.welcomed, true); }
   var CUSTOM = load(K.custom, []);
   CUSTOM.forEach(function (c) { if (c && c.key) { if (!TYPES[c.key]) TYPES[c.key] = { label: c.label || "Custom", icon: c.icon || "\ud83d\udcdd" }; if (PICKER.indexOf(c.key) < 0) PICKER.push(c.key); } });
   state.enabledTypes = (state.enabledTypes || []).filter(function (k) { return PICKER.indexOf(k) >= 0; }); if (!state.enabledTypes.length) state.enabledTypes = PICKER.slice();
@@ -274,16 +300,17 @@ window.WHO_LMS={"wfa_b":[[0.3487,3.3464,0.14602],[0.2297,4.4709,0.13395],[0.197,
   function exportBackup() {
     idbAll(function (list) {
       var photos = {}; list.forEach(function (rec) { photos[rec.id] = rec.data; });
-      var data = { schema: SCHEMA, child: state.child, days: state.days, growth: state.growth, units: state.units, foods: state.foods, appname: state.appname, tempunit: state.tempunit, enabled: state.enabledTypes, feedmethods: state.enabledFeeds, custom: CUSTOM, photos: photos, exported: new Date().toISOString() };
-      downloadBlob(new Blob([JSON.stringify(data)], { type: "application/json" }), "daily-log-backup-" + todayKey() + ".json");
-      state.lastBackup = new Date().toISOString(); save(K.lastbackup, state.lastBackup); render();
+      var data = { schema: SCHEMA, child: state.child, days: state.days, growth: state.growth, units: state.units, foods: state.foods, appname: state.appname, tempunit: state.tempunit, enabled: state.enabledTypes, feedmethods: state.enabledFeeds, feeddetail: state.feedDetail, eggpreps: state.enabledPreps, custom: CUSTOM, photos: photos, exported: new Date().toISOString() };
+      downloadBlob(new Blob([JSON.stringify(data)], { type: "application/json" }), fileStem() + "-backup-" + todayKey() + ".json");
+      state.lastBackup = new Date().toISOString(); save(K.lastbackup, state.lastBackup); render(); toast("Backup saved. Keep it in Files or iCloud.");
     });
   }
+  function fileStem() { var n = (state.child.name || "").trim().toLowerCase().replace(/[^a-z0-9]+/g, ""); return (n ? n + "s" : "babys") + "-day"; }
   function exportCSV() {
-    var rows = [["date", "time", "type", "item", "note", "feed_method", "amount_ml", "duration_min", "sleep_kind"]];
-    Object.keys(state.days).sort().forEach(function (dk) { (state.days[dk].entries || []).slice().sort(function (a, b) { return a.time.localeCompare(b.time); }).forEach(function (e) { rows.push([dk, e.time, (TYPES[e.type] && TYPES[e.type].label) || e.type, e.items || "", e.note || "", e.feedMethod || "", e.amountMl != null ? e.amountMl : "", e.durationMin != null ? e.durationMin : "", e.sleepKind || ""]); }); });
+    var rows = [["date", "time", "end_time", "type", "item", "note", "feed_method", "amount_ml", "duration_min"]];
+    Object.keys(state.days).sort().forEach(function (dk) { (state.days[dk].entries || []).slice().sort(function (a, b) { return a.time.localeCompare(b.time); }).forEach(function (e) { rows.push([dk, e.time, e.endTime || "", (TYPES[e.type] && TYPES[e.type].label) || e.type, e.items || "", e.note || "", e.feedMethod || "", e.amountMl != null ? e.amountMl : "", e.durationMin != null ? e.durationMin : ""]); }); });
     var csv = rows.map(function (r) { return r.map(function (c) { c = String(c); return /[",\n]/.test(c) ? '"' + c.replace(/"/g, '""') + '"' : c; }).join(","); }).join("\n");
-    downloadBlob(new Blob([csv], { type: "text/csv" }), "rudras-day-log-" + todayKey() + ".csv");
+    downloadBlob(new Blob([csv], { type: "text/csv" }), fileStem() + "-log-" + todayKey() + ".csv");
   }
   function printReport() {
     var nm = state.child.name || "Child";
@@ -300,92 +327,153 @@ window.WHO_LMS={"wfa_b":[[0.3487,3.3464,0.14602],[0.2297,4.4709,0.13395],[0.197,
     var when = "Last backed up " + (days <= 0 ? "today" : (days + " day" + (days === 1 ? "" : "s") + " ago")) + " (" + prettyDate(lb.slice(0, 10)) + ").";
     return days >= 7 ? ('<div class="tip">' + when + " Worth exporting a fresh copy.</div>") : ('<p class="mini" style="margin:6px 0 0">' + when + "</p>");
   }
+  function renderWelcome() {
+    var sx = state.child.sex || "";
+    return '<div class="head" style="padding-bottom:26px"><h1 class="title">Welcome</h1><p class="sub">A calm, private daily log for your little one. Everything stays on this phone.</p></div>' +
+      '<div class="card"><p class="label">Tell me about your baby</p>' +
+      '<input class="fld" id="w-name" placeholder="Name (optional)" value="' + esc(state.child.name || "") + '">' +
+      '<label class="mini" style="display:block;margin-top:12px">Date of birth</label><input class="fld" type="date" id="w-dob" value="' + esc(state.child.dob || "") + '" max="' + todayKey() + '" style="margin-top:4px">' +
+      '<label class="mini" style="display:block;margin-top:12px">Sex, used only for WHO growth charts</label><div class="sexcards"><button type="button" class="sexcard' + (sx === "boy" ? " on" : "") + '" data-wsex="boy"><span class="em">\u2642\ufe0e</span><span class="lb">Boy</span></button><button type="button" class="sexcard' + (sx === "girl" ? " on" : "") + '" data-wsex="girl"><span class="em">\u2640\ufe0e</span><span class="lb">Girl</span></button></div>' +
+      '<button class="add" id="w-start">Start logging</button>' +
+      '<p class="mini" style="text-align:center;margin-top:10px"><button class="link" id="w-skip">Skip for now, I will add this later</button></p></div>' +
+      '<div class="card"><p class="label">How it works</p><div class="tlitem"><div class="tldot">\ud83d\udcdd</div><div class="tlbody"><p class="tlitems">Tap the circle to log</p><p class="tlnote">Feeds, naps, meals, poops, symptoms. Fill the day in whenever suits you, even at bedtime.</p></div></div><div class="tlitem"><div class="tldot">\ud83d\udcc8</div><div class="tlbody"><p class="tlitems">See trends and growth</p><p class="tlnote">WHO percentiles and a doctor recap, ready for the next visit.</p></div></div><div class="tlitem"><div class="tldot">\ud83d\udd12</div><div class="tlbody"><p class="tlitems">Private by design</p><p class="tlnote">No account, no cloud, no ads. Back up to Files whenever you like.</p></div></div></div>';
+  }
+  function bindWelcome() {
+    Array.prototype.forEach.call(document.querySelectorAll("[data-wsex]"), function (b) { b.onclick = function () { state.child.sex = b.getAttribute("data-wsex"); var n = document.getElementById("w-name"), d = document.getElementById("w-dob"); if (n) state.child.name = n.value.trim(); if (d) state.child.dob = d.value; render(); }; });
+    var st = document.getElementById("w-start"); if (st) st.onclick = function () { var n = document.getElementById("w-name"), d = document.getElementById("w-dob"); state.child.name = n ? n.value.trim() : ""; state.child.dob = d ? d.value : ""; save(K.child, state.child); state.welcomed = true; save(K.welcomed, true); render(); toast(state.child.name ? "Welcome, " + state.child.name + "\u2019s day starts here" : "You are all set"); };
+    var sk = document.getElementById("w-skip"); if (sk) sk.onclick = function () { state.welcomed = true; save(K.welcomed, true); render(); };
+  }
   function render() {
+    if (!state.welcomed) { app.innerHTML = renderWelcome(); bindWelcome(); return; }
     var name = state.child.name;
     var sub = ageText(state.child.dob) || (state.child.name ? "Add birthday in Settings for age" : "A calm daily log for your little one");
     var html = '<div class="head"><div class="headrow">' + avatarHtml("avatar") + '<div><h1 class="title">' + esc(appTitle()) + "</h1>" +
       '<p class="sub">' + esc(sub) + ' <button class="link" data-go="settings">edit</button></p></div></div></div>';
     html += '<div id="content">' + renderTab() + "</div>";
     html += renderSheet();
-    html += '<nav class="tabs">' + [["today", "Today", "📝"], ["history", "History", "📖"], ["growth", "Growth", "📏"], ["insights", "Insights", "💡"], ["ask", "Ask", "💬"], ["settings", "Settings", "⚙️"]].map(function (t) {
+    html += '<nav class="tabs">' + [["today", "Today", "📝"], ["history", "History", "📖"], ["trends", "Trends", "📈"], ["settings", "Settings", "⚙️"]].map(function (t) {
       return '<button class="tab' + (state.tab === t[0] ? " active" : "") + '" data-tab="' + t[0] + '"><span class="ic">' + t[2] + "</span>" + t[1] + "</button>";
     }).join("") + "</nav>";
     app.innerHTML = html; bind(); hydratePhotos();
   }
-  function renderTab() { if (state.tab === "today") return renderToday(); if (state.tab === "history") return renderHistory(); if (state.tab === "growth") return renderGrowth(); if (state.tab === "insights") return renderInsights(); if (state.tab === "ask") return renderAsk(); return renderSettings(); }
+  function renderTab() { if (state.tab === "today") return renderToday(); if (state.tab === "history") return renderHistory(); if (state.tab === "trends") return renderTrends(); return renderSettings(); }
+  function renderTrends() {
+    var v = state.trendsView || "insights";
+    var s = '<div class="pillrow" style="padding:0 16px 12px">' + [["insights", "Insights"], ["growth", "Growth"], ["ask", "Ask"]].map(function (o) { return '<button class="typebtn' + (v === o[0] ? " active" : "") + '" data-trend="' + o[0] + '">' + o[1] + "</button>"; }).join("") + "</div>";
+    if (v === "growth") s += renderGrowth(); else if (v === "ask") s += renderAsk(); else s += renderInsights();
+    return s;
+  }
+  function bindTrends() {
+    Array.prototype.forEach.call(document.querySelectorAll("[data-trend]"), function (b) { b.onclick = function () { state.trendsView = b.getAttribute("data-trend"); render(); }; });
+    var v = state.trendsView || "insights";
+    if (v === "growth") bindGrowth(); else if (v === "ask") bindAsk(); else bindInsights();
+  }
   function dayNav() { var i = state.viewDay === todayKey(); var label = i ? ("Today \u00b7 " + shortDate(state.viewDay)) : prettyDate(state.viewDay); return '<div class="daynav"><button class="arrow" data-nav="-1" aria-label="Previous day">\u2039</button><button class="daylabel daylabelbtn" id="dayJump">' + label + ' <span class="caret">\u25be</span></button><button class="arrow" data-nav="1"' + (i ? " disabled" : "") + ' aria-label="Next day">\u203a</button><input type="date" id="dateInput" value="' + state.viewDay + '" max="' + todayKey() + '" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"></div>'; }
 
+  function dayBar(day) {
+    var ev = day.entries || []; if (!ev.length) return "";
+    var W = 480, H = 46; function x(m) { return (m / 1440) * W; } function mins(t) { var q = (t || "0:0").split(":").map(Number); return q[0] * 60 + q[1]; }
+    var wake = null, bed = null, naps = [], dots = [];
+    ev.forEach(function (e) { if (e.type === "wake") wake = mins(e.time); else if (e.type === "bed") bed = mins(e.time); else if (e.type === "nap" && e.durationMin) naps.push([mins(e.time), e.durationMin]); else dots.push({ m: mins(e.time), g: typeGroup(e.type) }); });
+    var svg = '<svg viewBox="0 0 ' + W + " " + H + '" style="width:100%;height:auto;display:block" aria-hidden="true"><rect x="0" y="14" width="' + W + '" height="16" rx="8" fill="var(--soft)"/>';
+    if (wake != null) svg += '<rect x="0" y="14" width="' + x(wake).toFixed(1) + '" height="16" rx="8" fill="var(--sleepfill)"/>';
+    if (bed != null) svg += '<rect x="' + x(bed).toFixed(1) + '" y="14" width="' + (W - x(bed)).toFixed(1) + '" height="16" rx="8" fill="var(--sleepfill)"/>';
+    naps.forEach(function (n) { svg += '<rect x="' + x(n[0]).toFixed(1) + '" y="14" width="' + Math.max(4, x(n[1])).toFixed(1) + '" height="16" rx="6" fill="var(--sleepfill)"/>'; });
+    dots.forEach(function (d) { var c = d.g === "Food" ? "var(--clay)" : (d.g === "Body" ? "var(--muted)" : "var(--primary)"); svg += '<circle cx="' + x(d.m).toFixed(1) + '" cy="22" r="4.5" fill="' + c + '" stroke="var(--card)" stroke-width="1.5"/>'; });
+    [[0, "12am", "start"], [360, "6am", "middle"], [720, "12pm", "middle"], [1080, "6pm", "middle"], [1440, "12am", "end"]].forEach(function (t) { svg += '<text x="' + x(t[0]).toFixed(1) + '" y="43" font-size="9" fill="var(--muted)" text-anchor="' + t[2] + '">' + t[1] + "</text>"; });
+    svg += "</svg>";
+    var leg = '<div class="mini" style="display:flex;gap:12px;margin-top:2px;flex-wrap:wrap"><span><i class="lg" style="background:var(--sleepfill);border-radius:3px"></i>Sleep</span><span><i class="lg" style="background:var(--clay)"></i>Food</span><span><i class="lg" style="background:var(--muted)"></i>Body</span><span><i class="lg" style="background:var(--primary)"></i>Other</span></div>';
+    return '<div class="card" style="padding:12px 15px 10px">' + svg + leg + "</div>";
+  }
+  function backupDue() {
+    var keys = Object.keys(state.days).filter(function (k) { return (state.days[k].entries || []).length; }).sort();
+    if (!keys.length) return false;
+    var WEEK = 7 * 86400000;
+    if (state.lastBackup) { var lb = new Date(state.lastBackup); return !isNaN(lb) && (Date.now() - lb.getTime()) > WEEK; }
+    var f = keys[0].split("-").map(Number); return (Date.now() - new Date(f[0], f[1] - 1, f[2]).getTime()) > WEEK;
+  }
   function renderToday() {
     var s = dayNav();
+    if (backupDue() && !state.backupDismissed) s += '<div class="card" style="border-left:3px solid var(--clay);padding:12px 14px"><div style="font-size:13px;font-weight:800">Weekly backup due</div><div class="mini" style="margin-top:2px">Save a copy to Files or iCloud so a lost phone never means lost data.</div><div class="row" style="margin-top:10px;gap:8px"><button class="typebtn active" data-backupnow="1">Back up now</button><button class="typebtn" data-backuplater="1">Later</button></div></div>';
     s += '<div class="logtop"><button class="logcircle" id="logOpen" aria-label="Log something">+</button><div class="logtoplabel">Log something</div></div>';
+    s += dayBar(getDay(state.viewDay));
     s += '<div class="card"><p class="label">' + (state.viewDay === todayKey() ? "The day so far" : "Entries") + '</p><div id="timeline">' + timelineHtml(getDay(state.viewDay), true) + "</div></div>";
     return s;
   }
   function renderSheet() {
     if (!state.logOpen) return "";
     var editing = state.editingId ? findEntry(state.viewDay, state.editingId) : null;
-    if (state.enabledTypes.indexOf(state.draftType) < 0) state.draftType = state.enabledTypes[0];
     var isToday = state.viewDay === todayKey();
-    var s = '<div class="sheetbg" id="sheetbg"></div><div class="sheet"><div class="sheethead"><span class="sheettitle">' + (editing ? "Edit entry" : ("Log \u2014 " + (isToday ? "today" : prettyDate(state.viewDay)))) + '</span><button class="sheetx" id="sheetClose">\u2715</button></div>';
-    s += '<div class="pillrow">';
-    state.enabledTypes.forEach(function (k) { var v = TYPES[k]; var a = state.draftType === k; s += '<button class="typebtn' + (a ? " active" : "") + '" data-type="' + k + '"' + (a ? ' style="background:var(--primary)"' : "") + "><span>" + v.icon + "</span>" + v.label + "</button>"; });
-    if (!editing) s += '<button class="typebtn addbtn" data-customize="1"><span>\u270e</span>Edit buttons</button>';
-    s += "</div>" + logMiddle(editing);
-    var hasNote = !!(editing && editing.note);
-    s += '<button class="link" id="addNoteBtn" style="margin-top:12px' + (hasNote ? ";display:none" : "") + '">+ Add a note</button>';
-    s += '<input class="fld" id="f-note" placeholder="Note (optional)" value="' + (editing ? esc(editing.note) : "") + '" style="margin-top:10px' + (hasNote ? "" : ";display:none") + '">';
-    s += photoField();
+    var chosen = editing || (state.draftType && state.enabledTypes.indexOf(state.draftType) >= 0);
+    var dlabel = isToday ? ("Today, " + shortDate(state.viewDay)) : prettyDate(state.viewDay);
+    var s = '<div class="sheetbg" id="sheetbg"></div><div class="sheet"><div class="sheethead"><span class="sheettitle">' + (editing ? "Edit \u00b7 " : "Log \u00b7 ") + dlabel + '</span><button class="sheetx" id="sheetClose">\u2715</button></div>';
+    var showGrid = !chosen || state.pickerOpen;
+    if (showGrid) {
+      s += groupedChips(state.enabledTypes, function (k) { var v = TYPES[k]; var a = state.draftType === k; return '<button class="typebtn' + (a ? " active" : "") + '" data-type="' + k + '"' + (a ? ' style="background:var(--primary)"' : "") + "><span>" + v.icon + "</span>" + v.label + "</button>"; }, editing ? "" : '<button class="typebtn addbtn" data-customize="1"><span>\u270e</span>Edit buttons</button>');
+    } else {
+      var sv = TYPES[state.draftType] || TYPES.other;
+      s += '<div class="row between"><span class="typebtn active" style="background:' + sv.color + '"><span>' + sv.icon + '</span>' + sv.label + '</span><button class="link" data-changetype="1">Change</button></div>';
+    }
+    if (!chosen) { s += '<p class="mini" style="padding:14px 4px 2px;text-align:center">Pick what to log above.</p></div>'; return s; }
+    s += logMiddle(editing);
+    var dr2 = (!editing && state.draft) ? state.draft : null;
+    var noteVal = editing ? (editing.note || "") : ((dr2 && dr2.note) ? dr2.note : "");
+    var hasNote = !!noteVal;
+    s += '<div class="row" style="margin-top:12px;gap:8px;flex-wrap:wrap">';
+    s += '<button class="chipbtn" id="addNoteBtn"' + (hasNote ? ' style="display:none"' : "") + '>\u002b Note</button>';
+    if (state.draftPhoto) s += '<div style="position:relative;display:inline-block"><img class="thumb" src="' + state.draftPhoto + '" alt=""><button class="thumbx" id="photoEntryRm" aria-label="Remove photo">\u2715</button></div>';
+    else s += '<button class="chipbtn" id="photoEntryBtn">\ud83d\udcf7 Photo</button>';
+    s += "</div>";
+    s += '<input class="fld" id="f-note" placeholder="Note (optional)" value="' + esc(noteVal) + '" style="margin-top:10px' + (hasNote ? "" : ";display:none") + '">';
+    s += '<input type="file" id="photoEntryFile" accept="image/*" style="display:none">';
+    s += '<div id="sheetHint" class="mini" style="color:var(--clay);font-weight:700;margin-top:10px"></div>';
     if (editing) s += '<div class="row" style="gap:10px"><button class="add" id="addBtn" style="flex:2">Save changes</button><button class="ghost" id="cancelEdit" style="flex:1;margin-top:12px">Cancel</button></div>';
     else s += '<button class="add" id="addBtn">Add entry</button>';
     s += "</div>";
     return s;
   }
 
-  function photoField() {
-    var s = '<div class="row" style="margin-top:10px;gap:12px;align-items:flex-start">';
-    if (state.draftPhoto) s += '<div style="position:relative"><img src="' + state.draftPhoto + '" class="thumb" alt=""><button class="thumbx" id="photoEntryRm" aria-label="Remove photo">\u2715</button></div>';
-    s += '<div style="flex:1"><button class="ghost" id="photoEntryBtn" style="margin-top:0">' + (state.draftPhoto ? "Change photo" : "\ud83d\udcf7 Add photo") + '</button></div></div>';
-    s += '<input type="file" id="photoEntryFile" accept="image/*" style="display:none">';
-    return s;
-  }
-
+  function napDurText(a, b) { var m = sleepMinutes(a, b); return (b && m != null) ? ("Length: " + fmtDur(m)) : "Set start and end for the length"; }
   function logMiddle(editing) {
     var t = state.draftType;
-    var tval = editing ? editing.time : nowTime();
-    var ival = editing ? esc(editing.items) : "";
-    var PH = { water: "Water, veg soup, apple puree...", poop: "Consistency or note", diaper: "Wet / notes", symptom: "Symptom, e.g. fever, cough", nap: "Notes (optional)", med: "Medicine & dose", supplement: "Supplement & dose, e.g. Vit D 400 IU", vaccine: "Vaccine name", doctor: "Reason for visit / notes", milestone: "What happened, e.g. first steps", bath: "Notes (optional)", play: "What / how long", reading: "Book / notes", outdoor: "Where / how long", pumping: "Notes (optional)" };
+    var dr = (!editing && state.draft) ? state.draft : null;
+    var tval = editing ? editing.time : ((dr && dr.time) ? dr.time : "");
+    var ival = editing ? esc(editing.items) : ((dr && dr.type === t && dr.items) ? esc(dr.items) : "");
+    var PH = { water: "How many ml? (optional)", poop: "Consistency or note", diaper: "Wet / notes", symptom: "Symptom, e.g. fever", med: "Medicine & dose", supplement: "Supplement & dose", vaccine: "Vaccine name", doctor: "Reason for visit / notes", milestone: "What happened, e.g. first steps", bath: "Notes (optional)", play: "What / how long", reading: "Book / notes", outdoor: "Where / how long", pumping: "Notes (optional)", fruit: "Which fruit?", puree: "Which puree? e.g. apple, carrot" };
     var ph = PH[t] || (FOOD_TYPES.indexOf(t) >= 0 ? "What did " + (state.child.name || "baby") + " have?" : "Details");
     var isFood = FOOD_TYPES.indexOf(t) >= 0;
-    var itemsInput = (t === "milk" || MARKER_TYPES.indexOf(t) >= 0) ? "" : '<input class="fld" id="f-items" value="' + ival + '" placeholder="' + ph + '"' + (isFood ? ' list="foodlist" autocomplete="off"' : "") + '>';
-    var s = '<div class="row" style="margin-top:12px;gap:10px"><input class="fld" type="time" id="f-time" value="' + tval + '" style="width:140px">' + itemsInput + '</div>';
+    if (t === "nap") {
+      var endVal = editing && editing.endTime ? editing.endTime : ((dr && dr.type === "nap" && dr.end) ? dr.end : "");
+      var sn = '<div class="row" style="margin-top:12px;gap:10px"><label class="mini" style="flex:1;font-weight:700">Start<br><input class="fld" type="time" id="f-time" value="' + tval + '" style="margin-top:4px"></label><label class="mini" style="flex:1;font-weight:700">End<br><input class="fld" type="time" id="f-end" value="' + endVal + '" style="margin-top:4px"></label></div>';
+      sn += '<div class="mini" id="napdur" style="margin-top:8px;font-weight:700;color:var(--primary)">' + napDurText(tval, endVal) + "</div>";
+      return sn;
+    }
+    var s = '<div class="row" style="margin-top:12px;gap:10px"><input class="fld" type="time" id="f-time" value="' + tval + '" style="width:140px">' + ((t === "milk" || t === "egg" || MARKER_TYPES.indexOf(t) >= 0) ? "" : '<input class="fld" id="f-items" value="' + ival + '" placeholder="' + ph + '"' + (isFood ? ' list="foodlist" autocomplete="off"' : "") + (t === "water" ? ' inputmode="decimal"' : "") + ' style="flex:1">') + "</div>";
     if (isFood) { var fqd = freqFoods(); if (fqd.length) s += '<datalist id="foodlist">' + fqd.map(function (o) { return '<option value="' + esc(o) + '"></option>'; }).join("") + "</datalist>"; }
-    s += '<div class="pillrow" style="margin-top:8px">' + SLOTS.map(function (sl) { return '<button class="preset" data-slot="' + sl[1] + '">' + sl[0] + "</button>"; }).join("") + "</div>";
     if (t === "poop") {
       s += '<div class="pillrow" style="margin-top:10px">' + STOOL.map(function (x) { return '<button class="typebtn" data-chip="' + esc(x) + '">' + x + "</button>"; }).join("") + "</div>";
     } else if (t === "symptom") {
       s += '<div class="pillrow" style="margin-top:10px">' + SYMPTOMS.map(function (x) { return '<button class="typebtn" data-chip="' + esc(x) + '">' + x + "</button>"; }).join("") + "</div>";
-      s += '<div class="row" style="margin-top:10px;gap:10px"><input class="fld" id="f-temp" inputmode="decimal" placeholder="Temperature (optional)"><div class="toggle"><button type="button" class="' + (state.tempunit === "C" ? "on" : "") + '" data-tempunit="C">\u00b0C</button><button type="button" class="' + (state.tempunit === "F" ? "on" : "") + '" data-tempunit="F">\u00b0F</button></div></div>';
+      s += '<div class="row" style="margin-top:10px;gap:10px"><input class="fld" id="f-temp" inputmode="decimal" placeholder="Temperature (optional)" value="' + ((dr && dr.type === "symptom" && dr.temp) ? esc(dr.temp) : "") + '"><div class="toggle"><button type="button" class="' + (state.tempunit === "C" ? "on" : "") + '" data-tempunit="C">\u00b0C</button><button type="button" class="' + (state.tempunit === "F" ? "on" : "") + '" data-tempunit="F">\u00b0F</button></div></div>';
+    } else if (t === "egg") {
+      var ec = state.eggCount || "1";
+      s += '<p class="mini" style="margin:12px 0 6px">How many?</p><div class="pillrow">' + ["\u00bd", "1", "2", "3"].map(function (c) { var on = ec === c; return '<button class="typebtn' + (on ? " active" : "") + '" data-eggcount="' + c + '"' + (on ? ' style="background:' + TYPES.egg.color + '"' : "") + ">" + c + "</button>"; }).join("") + "</div>";
+      var ep = state.eggPrep || "";
+      s += '<p class="mini" style="margin:12px 0 6px">How was it made?</p><div class="pillrow">' + state.enabledPreps.map(function (pp) { var on = ep === pp; return '<button class="typebtn' + (on ? " active" : "") + '" data-eggprep="' + pp + '"' + (on ? ' style="background:' + TYPES.egg.color + '"' : "") + ">" + pp + "</button>"; }).join("") + "</div>";
     } else if (t === "milk") {
       var em = editing ? editing.items : "";
       var durVal = "", amtVal = "";
       if (em) { var mMin = em.match(/(\d+(?:\.\d+)?)\s*min/); if (mMin) durVal = mMin[1]; var mMl = em.match(/(\d+(?:\.\d+)?)\s*ml/); if (mMl) amtVal = mMl[1]; }
+      if (dr && dr.type === "milk") { if (dr.dur) durVal = esc(dr.dur); if (dr.amt) amtVal = esc(dr.amt); }
       s += '<p class="mini" style="margin:12px 0 6px">How was ' + esc(state.child.name || "baby") + ' fed?</p><div class="pillrow">' + state.enabledFeeds.map(function (m) { var on = state.feedMethod === m; return '<button class="typebtn' + (on ? " active" : "") + '" data-feedmethod="' + esc(m) + '"' + (on ? ' style="background:var(--primary)"' : "") + '>' + m + "</button>"; }).join("") + "</div>";
-      if (state.feedMethod === "Breastfeed") s += '<input class="fld" id="f-dur" inputmode="decimal" placeholder="Minutes at breast (optional)" value="' + durVal + '" style="margin-top:10px">';
-      else s += '<input class="fld" id="f-amt" inputmode="decimal" placeholder="Amount in ml (optional)" value="' + amtVal + '" style="margin-top:10px">';
-    } else if (t === "nap") {
-      var endVal = editing && editing.endTime ? editing.endTime : "";
-      var kind = state.sleepKind || (editing && editing.sleepKind) || suggestSleepKind(tval);
-      state.sleepKind = kind;
-      s += '<div class="row" style="margin-top:10px;gap:10px"><label class="mini" style="flex:1">End time (optional)<br><input class="fld" type="time" id="f-end" value="' + endVal + '" style="margin-top:4px"></label></div>';
-      s += '<div class="pillrow" style="margin-top:10px">' + ["Day nap", "Night sleep"].map(function (kk) { var on = kind === kk; return '<button class="typebtn' + (on ? " active" : "") + '" data-sleepkind="' + kk + '"' + (on ? ' style="background:var(--primary)"' : "") + ">" + kk + "</button>"; }).join("") + "</div>";
+      if (state.feedDetail) { if (/breast/i.test(state.feedMethod)) s += '<input class="fld" id="f-dur" inputmode="decimal" placeholder="Minutes (optional)" value="' + durVal + '" style="margin-top:10px">'; else s += '<input class="fld" id="f-amt" inputmode="decimal" placeholder="Amount in ml (optional)" value="' + amtVal + '" style="margin-top:10px">'; }
     }
     return s;
   }
-
   function timelineHtml(day, allowDelete) {
     var ev = (day.entries || []).slice();
     ev.sort(function (a, b) { return a.time.localeCompare(b.time); });
-    if (!ev.length) return '<div class="empty">Nothing logged yet. You can fill the whole day in at once, whenever suits you, even at bedtime.</div>';
+    if (!ev.length) return '<div class="empty">Nothing logged yet.<br>Tap the circle above to add a feed, nap, meal or poop. You can fill the whole day in at once, even at bedtime.</div>';
     function meta(t) { return TYPES[t] || TYPES.other; }
     return ev.map(function (e) {
       var m = meta(e.type); var tag = (TYPES[e.type] && MARKER_TYPES.indexOf(e.type) < 0) ? TYPES[e.type].label + ": " : "";
@@ -422,11 +510,10 @@ window.WHO_LMS={"wfa_b":[[0.3487,3.3464,0.14602],[0.2297,4.4709,0.13395],[0.197,
 
   function renderGrowth() {
     var metric = state.units === "metric";
-    var s = '<div class="card"><div class="row between"><p class="label" style="margin:0">Add measurement</p><div class="toggle"><button class="' + (metric ? "on" : "") + '" data-units="metric">cm / kg</button><button class="' + (!metric ? "on" : "") + '" data-units="imperial">in / lb</button></div></div>';
-    s += '<input class="fld" type="date" id="g-date" value="' + todayKey() + '" style="margin-top:12px"><div class="row" style="margin-top:10px;gap:10px"><input class="fld" id="g-h" inputmode="decimal" placeholder="Height (' + (metric ? "cm" : "in") + ')"><input class="fld" id="g-w" inputmode="decimal" placeholder="Weight (' + (metric ? "kg" : "lb") + ')"></div><button class="add" id="gAdd">Save measurement</button></div>';
+    var addCard = '<div class="card"><div class="row between"><p class="label" style="margin:0">Add measurement</p><div class="toggle"><button class="' + (metric ? "on" : "") + '" data-units="metric">cm / kg</button><button class="' + (!metric ? "on" : "") + '" data-units="imperial">in / lb</button></div></div>';
+    addCard += '<input class="fld" type="date" id="g-date" value="' + todayKey() + '" style="margin-top:12px"><div class="row" style="margin-top:10px;gap:10px"><input class="fld" id="g-h" inputmode="decimal" placeholder="Height (' + (metric ? "cm" : "in") + ')"><input class="fld" id="g-w" inputmode="decimal" placeholder="Weight (' + (metric ? "kg" : "lb") + ')"></div><button class="add" id="gAdd">Save measurement</button></div>';
 
-    // WHO percentile for the latest measurement
-    s += percentileCard();
+    var s = percentileCard();
 
     var pts = state.growth.map(function (g) { return { date: g.date, h: toDisplay(g, "h"), w: toDisplay(g, "w") }; });
     if (state.child.dob && state.child.sex && state.growth.length) {
@@ -440,6 +527,7 @@ window.WHO_LMS={"wfa_b":[[0.3487,3.3464,0.14602],[0.2297,4.4709,0.13395],[0.197,
         chartSvg(pts, "h", "Height (" + (metric ? "cm" : "in") + ")", "#C2774F") + "</div>";
     }
 
+    s += addCard;
     s += '<div class="card"><p class="label">Log</p>';
     if (!state.growth.length) s += '<div class="empty">No measurements yet. Add height and weight to see the growth trend and WHO percentiles.</div>';
     else {
@@ -471,7 +559,11 @@ window.WHO_LMS={"wfa_b":[[0.3487,3.3464,0.14602],[0.2297,4.4709,0.13395],[0.197,
     s += '<div class="stat">';
     if (wP && wP.p != null) s += '<span class="chip">Weight: ' + pctText(wP.p) + "</span>";
     if (hP && hP.p != null) s += '<span class="chip">Height: ' + pctText(hP.p) + "</span>";
-    s += "</div></div>";
+    var wfl = (months < 24 && hCm != null && wKg != null) ? lmsWFL(state.child.sex, hCm) : null;
+    if (wfl) { var wflP = normCdf(zOf(wfl, wKg)) * 100; s += '<span class="chip">Weight for length: ' + pctText(wflP) + "</span>"; }
+    s += "</div>";
+    if (wfl) s += '<div class="mini" style="margin-top:8px">Weight for length shows whether weight is in proportion to length, which doctors read alongside the two above (WHO, under 2 years).</div>';
+    s += "</div>";
     return s;
   }
 
@@ -490,6 +582,13 @@ window.WHO_LMS={"wfa_b":[[0.3487,3.3464,0.14602],[0.2297,4.4709,0.13395],[0.197,
 
   // ---------- WHO percentile-band growth chart ----------
   var PCTL = [{ z: -1.881, label: "3rd" }, { z: -1.036, label: "15th" }, { z: 0, label: "50th" }, { z: 1.036, label: "85th" }, { z: 1.881, label: "97th" }];
+  function zOf(l, v) { return l.L !== 0 ? (Math.pow(v / l.M, l.L) - 1) / (l.L * l.S) : Math.log(v / l.M) / l.S; }
+  function lmsWFL(sex, lenCm) {
+    var t = window.WHO_WFL && window.WHO_WFL[sex === "girl" ? "g" : "b"];
+    if (!t || lenCm == null || lenCm < 45 || lenCm > 110) return null;
+    var idx = (lenCm - 45) / 0.5, i0 = Math.floor(idx), i1 = Math.min(130, Math.ceil(idx)), fr = idx - i0;
+    return { L: t.L, M: lerp(t.M[i0], t.M[i1], fr), S: lerp(t.S[i0], t.S[i1], fr) };
+  }
   function lmsAt(field, sex, months) {
     if (!window.WHO_LMS || months < 0) return null;
     var mm = Math.min(60, months);
@@ -541,10 +640,10 @@ window.WHO_LMS={"wfa_b":[[0.3487,3.3464,0.14602],[0.2297,4.4709,0.13395],[0.197,
     q = (q || "").trim().toLowerCase(); if (!q) return "";
     if (/sleep|nap/.test(q)) {
       var rows = allEntriesWithin(14).filter(function (r) { return r.e.type === "nap" && r.e.durationMin; });
-      if (!rows.length) return "No sleep with durations logged in the last 14 days.";
-      var byDay = {}, night = 0, daym = 0; rows.forEach(function (r) { byDay[r.date] = (byDay[r.date] || 0) + r.e.durationMin; if ((r.e.sleepKind || "").indexOf("Night") >= 0) night += r.e.durationMin; else daym += r.e.durationMin; });
+      if (!rows.length) return "No naps with durations logged in the last 14 days.";
+      var byDay = {}; rows.forEach(function (r) { byDay[r.date] = (byDay[r.date] || 0) + r.e.durationMin; });
       var dn = Object.keys(byDay).length, tot = 0; Object.keys(byDay).forEach(function (d) { tot += byDay[d]; });
-      return "Average sleep over " + dn + " logged day" + (dn > 1 ? "s" : "") + ": " + fmtDur(tot / dn) + " per day (" + fmtDur(daym / dn) + " day, " + fmtDur(night / dn) + " night).";
+      return "Average nap time over " + dn + " logged day" + (dn > 1 ? "s" : "") + ": " + fmtDur(tot / dn) + " per day, " + (rows.length / dn).toFixed(1) + " naps/day.";
     }
     if (/feed|nursing|breastfeed|formula|milk/.test(q)) {
       var r2 = allEntriesWithin(14).filter(function (r) { return r.e.type === "milk"; });
@@ -581,12 +680,12 @@ window.WHO_LMS={"wfa_b":[[0.3487,3.3464,0.14602],[0.2297,4.4709,0.13395],[0.197,
     L.push("Meals " + cnt("meal") + ", snacks " + cnt("snack") + " (avg " + ((cnt("meal") + cnt("snack")) / nd).toFixed(1) + "/day)");
     var feeds = rows.filter(function (r) { return r.e.type === "milk"; }); if (feeds.length) L.push("Feeds " + feeds.length + " (avg " + (feeds.length / nd).toFixed(1) + "/day)");
     var naps = rows.filter(function (r) { return r.e.type === "nap" && r.e.durationMin; });
-    if (naps.length) { var byd = {}, nn = 0, ndd = 0; naps.forEach(function (r) { byd[r.date] = (byd[r.date] || 0) + r.e.durationMin; if ((r.e.sleepKind || "").indexOf("Night") >= 0) nn += r.e.durationMin; else ndd += r.e.durationMin; }); var sd = Object.keys(byd).length || 1, tt = 0; Object.keys(byd).forEach(function (d) { tt += byd[d]; }); L.push("Sleep avg " + fmtDur(tt / sd) + "/day (" + fmtDur(ndd / sd) + " day, " + fmtDur(nn / sd) + " night)"); }
+    if (naps.length) { var byd = {}; naps.forEach(function (r) { byd[r.date] = (byd[r.date] || 0) + r.e.durationMin; }); var sd = Object.keys(byd).length || 1, tt = 0; Object.keys(byd).forEach(function (d) { tt += byd[d]; }); L.push("Naps avg " + fmtDur(tt / sd) + "/day (" + (naps.length / sd).toFixed(1) + " naps/day)"); }
     var poops = rows.filter(function (r) { return r.e.type === "poop"; }); if (poops.length) L.push("Poops " + poops.length + " (avg " + (poops.length / nd).toFixed(1) + "/day)");
     var sym = rows.filter(function (r) { return r.e.type === "symptom"; }); if (sym.length) { L.push("Symptoms:"); sym.forEach(function (r) { L.push("  " + prettyDate(r.date) + " " + to12h(r.e.time) + " " + r.e.items); }); }
     ["med", "supplement", "vaccine"].forEach(function (t) { var rr = rows.filter(function (r) { return r.e.type === t; }); if (rr.length) { var nm = {}; rr.forEach(function (r) { nm[r.e.items] = 1; }); L.push(TYPES[t].label + ": " + Object.keys(nm).join("; ")); } });
     if (state.growth.length) { var g = null; state.growth.forEach(function (x) { if (!g || x.date > g.date) g = x; }); var mo = ageMonths(state.child.dob, g.date), wp = null, hp = null; if (state.child.dob && state.child.sex) { var wpp = percentile("w", toMetric(g, "w"), mo, state.child.sex), hpp = percentile("h", toMetric(g, "h"), mo, state.child.sex); if (wpp && wpp.p != null) wp = Math.round(wpp.p); if (hpp && hpp.p != null) hp = Math.round(hpp.p); } var un = state.units === "imperial" ? { w: "lb", h: "in" } : { w: "kg", h: "cm" }; L.push("Latest growth " + prettyDate(g.date) + ": " + (toDisplay(g, "w") != null ? toDisplay(g, "w").toFixed(1) + un.w : "") + (toDisplay(g, "h") != null ? ", " + toDisplay(g, "h").toFixed(1) + un.h : "") + (wp != null ? " (weight ~" + wp + "th pct" + (hp != null ? ", height ~" + hp + "th" : "") + ")" : "")); }
-    L.push(""); L.push("From Rudra\u2019s Day, a private on-device log. Percentiles are WHO estimates for recall, not a diagnosis.");
+    L.push(""); L.push("From " + appTitle() + ", a private on-device log. Percentiles are WHO estimates for recall, not a diagnosis.");
     return L.join("\n");
   }
 
@@ -607,28 +706,29 @@ window.WHO_LMS={"wfa_b":[[0.3487,3.3464,0.14602],[0.2297,4.4709,0.13395],[0.197,
   function renderInsights() {
     var dates = insightsDates();
     var nDays = dates.length, single = nDays === 1;
+    var logged = dates.filter(function (k) { return (state.days[k] && state.days[k].entries || []).length; }).length, den = logged || 1;
     var entries = [];
     dates.forEach(function (k) { (state.days[k] && state.days[k].entries || []).forEach(function (e) { entries.push(e); }); });
     var all = Object.keys(GROUPS);
-    var meals = 0, snacks = 0, fluids = 0, poops = 0, symList = [];
-    entries.forEach(function (e) { if (e.type === "meal") meals++; else if (e.type === "snack") snacks++; if (FLUID_TYPES.indexOf(e.type) >= 0) fluids++; if (e.type === "poop") poops++; if (e.type === "symptom") symList.push(e); });
-    var s = rangeSelector();
-    var chips = '<span class="chip">🍽️ ' + meals + ' meals</span><span class="chip">🍎 ' + snacks + ' snacks</span><span class="chip">💧 ' + fluids + ' fluids</span><span class="chip">💩 ' + poops + " poops</span>";
+    var meals = 0, snacks = 0, fruits = 0, fluids = 0, poops = 0, symList = [];
+    entries.forEach(function (e) { if (e.type === "meal") meals++; else if (e.type === "snack") snacks++; else if (e.type === "fruit") fruits++; if (FLUID_TYPES.indexOf(e.type) >= 0) fluids++; if (e.type === "poop") poops++; if (e.type === "symptom") symList.push(e); });
+    var s = "";
+    var chips = '<span class="chip">🍽️ ' + meals + ' meals</span><span class="chip">🍪 ' + snacks + ' snacks</span><span class="chip">🍎 ' + fruits + ' fruit</span><span class="chip">💧 ' + fluids + ' fluids</span><span class="chip">💩 ' + poops + " poops</span>";
     if (symList.length) chips += '<span class="chip">🤒 ' + symList.length + " symptom" + (symList.length > 1 ? "s" : "") + "</span>";
-    s += '<div class="card"><p class="label">At a glance' + (single ? "" : " (" + nDays + " days)") + '</p><div class="stat">' + chips + "</div>";
-    if (!single) s += '<div class="mini" style="margin-top:8px">Per day: ' + (meals / nDays).toFixed(1) + " meals, " + (snacks / nDays).toFixed(1) + " snacks, " + (fluids / nDays).toFixed(1) + " fluids, " + (poops / nDays).toFixed(1) + " poops.</div>";
+    s += '<div class="card"><p class="label">At a glance' + (single ? "" : " (" + logged + " of " + nDays + " days logged)") + '</p><div class="stat">' + chips + "</div>";
+    if (!single) s += '<div class="mini" style="margin-top:8px">Per day: ' + (meals / den).toFixed(1) + " meals, " + (snacks / den).toFixed(1) + " snacks, " + (fluids / den).toFixed(1) + " fluids, " + (poops / den).toFixed(1) + " poops, over logged days.</div>";
     if (symList.length) s += '<div class="tip">Symptoms: ' + symList.map(function (e) { return esc(e.items); }).join(", ") + ".</div>";
     s += "</div>";
     var naps = entries.filter(function (e) { return e.type === "nap" && e.durationMin; });
     if (naps.length) {
-      var tot = 0, nn = 0, dd = 0, longest = 0;
-      naps.forEach(function (e) { tot += e.durationMin; if ((e.sleepKind || "").indexOf("Night") >= 0) nn += e.durationMin; else dd += e.durationMin; if (e.durationMin > longest) longest = e.durationMin; });
+      var tot = 0, longest = 0;
+      naps.forEach(function (e) { tot += e.durationMin; if (e.durationMin > longest) longest = e.durationMin; });
       var sleepDays = {}; dates.forEach(function (k) { if ((state.days[k] && state.days[k].entries || []).some(function (e) { return e.type === "nap" && e.durationMin; })) sleepDays[k] = 1; });
       var sd = Object.keys(sleepDays).length || 1;
-      s += '<div class="card"><p class="label">Sleep' + (single ? " today" : " (avg per day)") + '</p><div class="stat"><span class="chip">😴 ' + fmtDur(single ? tot : tot / sd) + ' total</span><span class="chip">☀️ ' + fmtDur(single ? dd : dd / sd) + ' day</span><span class="chip">🌙 ' + fmtDur(single ? nn : nn / sd) + ' night</span></div>' + (single && longest ? '<div class="tip good">Longest stretch ' + fmtDur(longest) + '.</div>' : "") + "</div>";
+      s += '<div class="card"><p class="label">Naps' + (single ? " today" : " (avg per day)") + '</p><div class="stat"><span class="chip">😴 ' + fmtDur(single ? tot : tot / sd) + ' total</span><span class="chip">🔢 ' + (single ? naps.length : (naps.length / sd).toFixed(1)) + ' naps</span>' + (single && longest ? '<span class="chip">⏱ ' + fmtDur(longest) + ' longest</span>' : "") + '</div></div>';
     }
     var groupDays = {}; all.forEach(function (g) { groupDays[g] = 0; });
-    dates.forEach(function (k) { var foodText = (state.days[k] && state.days[k].entries || []).filter(function (e) { return e.type === "meal" || e.type === "snack"; }).map(function (e) { return e.items; }).join(" "); var hit = classifyGroups(foodText); hit.forEach(function (g) { groupDays[g]++; }); });
+    dates.forEach(function (k) { var foodText = (state.days[k] && state.days[k].entries || []).filter(function (e) { return e.type === "meal" || e.type === "snack" || e.type === "fruit" || e.type === "puree" || e.type === "egg"; }).map(function (e) { return e.items; }).join(" "); var hit = classifyGroups(foodText); hit.forEach(function (g) { groupDays[g]++; }); });
     s += '<div class="card"><p class="label">Food groups' + (single ? " today" : "") + '</p>';
     if (single) {
       var hitToday = all.filter(function (g) { return groupDays[g] > 0; });
@@ -638,11 +738,31 @@ window.WHO_LMS={"wfa_b":[[0.3487,3.3464,0.14602],[0.2297,4.4709,0.13395],[0.197,
       if (missing.indexOf("Vegetables") >= 0) s += '<div class="tip">No vegetables logged today.</div>';
       if (missing.indexOf("Protein") >= 0) s += '<div class="tip">No protein source logged (egg, dal, paneer, etc.).</div>';
     } else {
-      all.forEach(function (g) { var c = groupDays[g], pct = Math.round(c / nDays * 100); s += '<div style="margin:10px 0 0"><div class="row between"><span style="font-weight:700;font-size:13px">' + g + '</span><span class="mini">' + c + ' of ' + nDays + ' days</span></div><div style="height:8px;background:var(--soft);border-radius:6px;margin-top:4px;overflow:hidden"><div style="height:100%;width:' + pct + '%;background:var(--primary);border-radius:6px"></div></div></div>'; });
+      all.forEach(function (g) { var c = groupDays[g], pct = Math.round(c / den * 100); s += '<div style="margin:10px 0 0"><div class="row between"><span style="font-weight:700;font-size:13px">' + g + '</span><span class="mini">' + c + ' of ' + logged + ' logged days</span></div><div style="height:8px;background:var(--soft);border-radius:6px;margin-top:4px;overflow:hidden"><div style="height:100%;width:' + pct + '%;background:var(--primary);border-radius:6px"></div></div></div>'; });
       var lowest = all.slice().sort(function (a, b) { return groupDays[a] - groupDays[b]; })[0];
-      if (groupDays[lowest] < nDays / 2) s += '<div class="tip" style="margin-top:12px">' + lowest + " showed up on fewer than half the days, an easy area to add variety.</div>";
+      if (groupDays[lowest] < den / 2) s += '<div class="tip" style="margin-top:12px">' + lowest + " showed up on fewer than half the days, an easy area to add variety.</div>";
     }
     s += "</div>";
+    var lines = [];
+    var napTot = 0, napDayCount = 0; dates.forEach(function (k) { var dt = 0; (state.days[k] && state.days[k].entries || []).forEach(function (e) { if (e.type === "nap" && e.durationMin) dt += e.durationMin; }); if (dt) { napTot += dt; napDayCount++; } });
+    var napAvg = napDayCount ? napTot / napDayCount : null;
+    if (single) {
+      lines.push("So far: " + meals + " meal" + (meals === 1 ? "" : "s") + ", " + fruits + " fruit, " + fluids + " feed" + (fluids === 1 ? "" : "s") + (napTot ? ", " + fmtDur(napTot) + " of naps" : "") + ".");
+    } else {
+      var rn = parseInt(state.insightsRange, 10);
+      if (napAvg != null && rn) {
+        var pt = 0, pd = 0; for (var i = rn; i < 2 * rn; i++) { var pk = shiftDay(todayKey(), -i), dd = 0; (state.days[pk] && state.days[pk].entries || []).forEach(function (e) { if (e.type === "nap" && e.durationMin) dd += e.durationMin; }); if (dd) { pt += dd; pd++; } }
+        var pAvg = pd ? pt / pd : null;
+        if (pAvg != null) { var delta = Math.round(napAvg - pAvg); lines.push(Math.abs(delta) >= 10 ? ("Naps averaged " + fmtDur(napAvg) + " a day, " + (delta > 0 ? "up " : "down ") + fmtDur(Math.abs(delta)) + " from the " + rn + " days before.") : ("Naps steady at about " + fmtDur(napAvg) + " a day.")); }
+        else lines.push("Naps averaged " + fmtDur(napAvg) + " a day.");
+      } else if (napAvg != null) lines.push("Naps averaged " + fmtDur(napAvg) + " a day.");
+      var lowG = all.slice().sort(function (a, b) { return groupDays[a] - groupDays[b]; })[0];
+      if (logged && groupDays[lowG] < den / 2) lines.push(lowG + " showed up on only " + groupDays[lowG] + " of " + logged + " logged days.");
+      else if (logged) lines.push("All five food groups appeared on at least half the logged days. Nice variety.");
+    }
+    if (symList.length) lines.push(symList.length + " symptom" + (symList.length > 1 ? "s" : "") + " logged" + (single ? " today" : "") + ".");
+    var soWhat = lines.length ? '<div class="card" style="border-left:3px solid var(--primary);padding:12px 14px"><p class="label" style="margin-bottom:4px">In short</p>' + lines.map(function (l) { return '<div style="font-size:14px;font-weight:700;line-height:1.45;margin-top:4px">' + esc(l) + "</div>"; }).join("") + "</div>" : "";
+    s = rangeSelector() + soWhat + s;
     s += '<p class="mini" style="padding:0 20px">Food groups come from simple keyword matching of the words you type (for example \u201cdal\u201d counts as protein). Fibre comes mainly from fruit, vegetables and grains. It is basic arithmetic on your own entries, on the phone. A memory aid, not medical advice.</p>';
     return s;
   }
@@ -655,7 +775,7 @@ window.WHO_LMS={"wfa_b":[[0.3487,3.3464,0.14602],[0.2297,4.4709,0.13395],[0.197,
   function renderAsk() {
     var s = '<div class="card"><p class="label">Ask</p><p class="mini" style="margin-bottom:10px">Answered from your own entries, on the phone. No AI, nothing sent anywhere.</p>';
     s += '<div class="row" style="gap:10px"><input class="fld" id="askq" placeholder="e.g. when did we start iron"><button class="add" id="askBtn" style="width:auto;margin-top:0;padding:12px 16px">Ask</button></div>';
-    s += '<div class="pillrow" style="margin-top:10px">' + ["Doctor recap", "Average sleep", "Feeds per day", "Poops per day", "Last fever"].map(function (x) { return '<button class="preset" data-ask="' + esc(x) + '">' + esc(x) + "</button>"; }).join("") + "</div>";
+    s += '<div class="pillrow" style="margin-top:10px">' + ["Doctor recap", "Average naps", "Feeds per day", "Poops per day", "Last fever"].map(function (x) { return '<button class="preset" data-ask="' + esc(x) + '">' + esc(x) + "</button>"; }).join("") + "</div>";
     s += '<div id="askOut" style="margin-top:4px"></div></div>';
     s += '<p class="mini" style="padding:0 20px">Tap a category or type a question. \u201cDoctor recap\u201d builds a 7-day summary you can copy for the visit. Everything is worked out on this device from your own log.</p>';
     return s;
@@ -678,12 +798,14 @@ window.WHO_LMS={"wfa_b":[[0.3487,3.3464,0.14602],[0.2297,4.4709,0.13395],[0.197,
   function renderSettings() {
     var sx = state.child.sex;
     var prev = load(K.prev, null);
-    var s = '<div class="card"><p class="label">Child profile</p>' +
+    var so = state.settingsOpen || {};
+    function secHead(id, title, hint) { return '<button class="sechead" data-sec="' + id + '"><span><span class="sectitle">' + title + '</span><span class="mini" style="display:block;font-weight:400">' + hint + '</span></span><span class="caret" style="font-size:14px">' + (so[id] ? "\u25be" : "\u25b8") + '</span></button><div class="sec" style="display:' + (so[id] ? "" : "none") + '">'; }
+    var s = secHead("profile", "Profile", "Name, birthday, sex and photo") + '<div class="card"><p class="label">Child profile</p>' +
       '<input class="fld" id="s-name" placeholder="Name (or nickname)" value="' + esc(state.child.name) + '">' +
       '<label class="mini" style="display:block;margin-top:10px">Date of birth (needed for WHO percentiles)</label>' +
       '<input class="fld" id="s-dob" type="date" value="' + esc(state.child.dob) + '" style="margin-top:4px">' +
       '<label class="mini" style="display:block;margin-top:10px">Sex (WHO standards are sex specific)</label>' +
-      '<div class="toggle" style="margin-top:4px"><button type="button" class="' + (sx === "boy" ? "on" : "") + '" data-sex="boy">Boy</button><button type="button" class="' + (sx === "girl" ? "on" : "") + '" data-sex="girl">Girl</button></div>' +
+      '<div class="sexcards"><button type="button" class="sexcard' + (sx === "boy" ? " on" : "") + '" data-sex="boy"><span class="em">\u2642\ufe0e</span><span class="lb">Boy</span></button><button type="button" class="sexcard' + (sx === "girl" ? " on" : "") + '" data-sex="girl"><span class="em">\u2640\ufe0e</span><span class="lb">Girl</span></button></div>' +
       '<label class="mini" style="display:block;margin-top:10px">App name shown at the top (optional)</label>' +
       '<input class="fld" id="s-appname" placeholder="' + esc(appTitle()) + '" value="' + esc(state.appname) + '" style="margin-top:4px">' +
       '<button class="add" id="saveProfile">Save profile</button></div>';
@@ -694,16 +816,17 @@ window.WHO_LMS={"wfa_b":[[0.3487,3.3464,0.14602],[0.2297,4.4709,0.13395],[0.197,
       "</div></div>" +
       '<input type="file" id="photoFile" accept="image/*" style="display:none">' +
       '<p class="mini" style="margin-top:8px">Stored on this device only and shrunk to a small thumbnail, so it stays private and takes little space.</p></div>';
-    s += '<div class="card" id="logbuttons-card"><p class="label">Log buttons</p>' +
+    s += '</div>' + secHead("logging", "Customize logging", "Buttons, your own categories, feed and egg options") + '<div class="card" id="logbuttons-card"><p class="label">Log buttons</p>' +
       '<p class="mini" style="margin-bottom:8px">Choose which buttons show on the Today screen. Turn off what you don\u2019t use to keep it simple. Hiding a button never deletes past entries.</p>' +
-      '<div class="pillrow">' + PICKER.map(function (k) { var on = state.enabledTypes.indexOf(k) >= 0; return '<button class="typebtn' + (on ? " active" : "") + '" data-toggletype="' + k + '"' + (on ? ' style="background:var(--primary)"' : "") + "><span>" + TYPES[k].icon + "</span>" + TYPES[k].label + "</button>"; }).join("") + "</div></div>";
+      groupedChips(PICKER, function (k) { var on = state.enabledTypes.indexOf(k) >= 0; return '<button class="typebtn' + (on ? " active" : "") + '" data-toggletype="' + k + '"' + (on ? ' style="background:var(--primary)"' : "") + "><span>" + TYPES[k].icon + "</span>" + TYPES[k].label + "</button>"; }) + "</div>";
     s += '<div class="card"><p class="label">Make your own button</p>';
     if (CUSTOM.length) s += '<div class="pillrow" style="margin-bottom:10px">' + CUSTOM.map(function (c) { return '<span class="typebtn" style="gap:8px">' + ((TYPES[c.key] && TYPES[c.key].icon) || "\ud83d\udcdd") + " " + esc(c.label) + ' <button class="del" data-delcustom="' + esc(c.key) + '" style="padding:0 2px">\u2715</button></span>'; }).join("") + "</div>";
-    s += '<div class="row" style="gap:10px"><input class="fld" id="c-emoji" placeholder="\ud83d\ude42" maxlength="2" style="width:66px;text-align:center"><input class="fld" id="c-name" placeholder="Button name, e.g. Rash cream"></div><button class="add" id="addCustom">Add button</button><p class="mini" style="margin-top:8px">Your button appears on the Today screen with a free text field. The emoji is optional. Turn it off any time in Log buttons above.</p></div>';
+    s += '<div class="row" style="gap:10px"><input class="fld" id="c-emoji" placeholder="\ud83d\ude42" maxlength="2" style="width:66px;text-align:center" value="' + esc((state.customDraft || {}).em || "") + '"><input class="fld" id="c-name" placeholder="Button name, e.g. Rash cream" value="' + esc((state.customDraft || {}).nm || "") + '"></div><p class="mini" style="margin:10px 0 6px">Show it under</p><div class="pillrow">' + GROUP_ORDER.map(function (g) { var on = (state.customGroup || "Other") === g; return '<button class="typebtn' + (on ? " active" : "") + '" data-cgroup="' + g + '">' + g + "</button>"; }).join("") + '</div><button class="add" id="addCustom">Add button</button><p class="mini" style="margin-top:8px">Your button appears on the Today screen with a free text field. The emoji is optional. Turn it off any time in Log buttons above.</p></div>';
     s += '<div class="card"><p class="label">Feed options</p>' +
       '<p class="mini" style="margin-bottom:8px">Which feeding methods to show when logging a feed.</p>' +
-      '<div class="pillrow">' + FEED_METHODS.map(function (m) { var on = state.enabledFeeds.indexOf(m) >= 0; return '<button class="typebtn' + (on ? " active" : "") + '" data-togglefeed="' + esc(m) + '"' + (on ? ' style="background:var(--primary)"' : "") + ">" + m + "</button>"; }).join("") + "</div></div>";
-    s += '<div class="card"><p class="label">Photos</p>' +
+      '<div class="pillrow">' + FEED_METHODS.map(function (m) { var on = state.enabledFeeds.indexOf(m) >= 0; return '<button class="typebtn' + (on ? " active" : "") + '" data-togglefeed="' + esc(m) + '"' + (on ? ' style="background:var(--primary)"' : "") + ">" + m + "</button>"; }).join("") + '</div><div class="row between" style="margin-top:12px"><span style="font-size:13px;font-weight:700">Ask for duration or amount</span><div class="toggle"><button type="button" class="' + (state.feedDetail ? "on" : "") + '" data-feeddetail="1">On</button><button type="button" class="' + (!state.feedDetail ? "on" : "") + '" data-feeddetail="0">Off</button></div></div><p class="mini" style="margin-top:6px">Off keeps feeds to one tap. On adds minutes for breast and ml for bottles.</p></div>';
+    s += '<div class="card"><p class="label">Egg styles</p><p class="mini" style="margin-bottom:8px">Which cooking styles show when logging an egg.</p><div class="pillrow">' + EGG_PREPS.map(function (p) { var on = state.enabledPreps.indexOf(p) >= 0; return '<button class="typebtn' + (on ? " active" : "") + '" data-toggleprep="' + esc(p) + '"' + (on ? ' style="background:' + TYPES.egg.color + '"' : "") + ">" + p + "</button>"; }).join("") + "</div></div>";
+    s += '</div>' + secHead("data", "Backup and data", "Export, restore, photos, and clearing") + '<div class="card"><p class="label">Photos</p>' +
       '<p class="mini" id="photoCount" style="margin-bottom:8px">Counting photos\u2026</p>' +
       '<button class="ghost" id="photoZipBtn">Save photos to Files</button>' +
       '<p class="mini" style="margin-top:6px">Bundles every attached photo into a single .zip. On iPhone, tap Save to Files or share to iCloud Drive. Photos live inside the app, never in your gallery.</p></div>';
@@ -720,6 +843,7 @@ window.WHO_LMS={"wfa_b":[[0.3487,3.3464,0.14602],[0.2297,4.4709,0.13395],[0.197,
     s += '<div class="card"><p class="label">Data</p>' +
       '<p class="mini">Everything is stored on this device only, in this app. Nothing is shared. No ads, ever.</p>' +
       '<button class="ghost" id="clearBtn" style="border-color:#D49A9A;color:#C57A7A">Clear all logged data</button></div>';
+    s += '</div>';
     return s;
   }
 
@@ -732,67 +856,79 @@ window.WHO_LMS={"wfa_b":[[0.3487,3.3464,0.14602],[0.2297,4.4709,0.13395],[0.197,
     if (dj && di) { dj.onclick = function () { try { if (di.showPicker) di.showPicker(); else di.click(); } catch (e) { di.click(); } }; di.onchange = function () { if (di.value) { state.viewDay = di.value; render(); } }; }
     if (state.tab === "today") bindToday();
     if (state.tab === "history") bindHistory();
-    if (state.tab === "ask") bindAsk();
-    if (state.tab === "insights") bindInsights();
-    if (state.tab === "growth") bindGrowth();
+    if (state.tab === "trends") bindTrends();
     if (state.tab === "settings") bindSettings();
     if (state.logOpen) bindSheet();
   }
 
   function bindToday() {
-    var lo = document.getElementById("logOpen"); if (lo) lo.onclick = function () { state.editingId = null; state.draftPhoto = ""; state.sleepKind = ""; state.logOpen = true; render(); };
-    Array.prototype.forEach.call(document.querySelectorAll("[data-editentry]"), function (b) { b.onclick = function () { var id = b.getAttribute("data-editentry"); var en = findEntry(state.viewDay, id); if (!en) return; state.editingId = id; state.draftType = en.type; if (en.type === "milk") { state.feedMethod = en.feedMethod || (FEED_METHODS.filter(function (m) { return en.items && en.items.indexOf(m) === 0; })[0]) || state.enabledFeeds[0]; } if (en.type === "nap") { state.sleepKind = en.sleepKind || suggestSleepKind(en.time); } function go(p) { state.draftPhoto = p || ""; state.logOpen = true; render(); } if (en.photoId) { if (photoCache[en.photoId]) go(photoCache[en.photoId]); else idbGet(en.photoId, function (v) { if (v) photoCache[en.photoId] = v; go(v); }); } else go(""); }; });
-    Array.prototype.forEach.call(document.querySelectorAll("[data-del]"), function (b) { b.onclick = function () { var id = b.getAttribute("data-del"); var en = findEntry(state.viewDay, id); if (en && en.photoId) idbDel(en.photoId); var day = getDay(state.viewDay); day.entries = (day.entries || []).filter(function (e) { return String(e.id) !== id; }); setDay(state.viewDay, day); if (state.editingId === id) state.editingId = null; render(); }; });
+    var bn = document.querySelector("[data-backupnow]"); if (bn) bn.onclick = function () { exportBackup(); };
+    var bl = document.querySelector("[data-backuplater]"); if (bl) bl.onclick = function () { state.backupDismissed = true; render(); };
+    var lo = document.getElementById("logOpen"); if (lo) lo.onclick = function () { state.editingId = null; state.draftType = ""; state.draft = null; state.pickerOpen = false; state.draftPhoto = ""; state.logOpen = true; render(); };
+    Array.prototype.forEach.call(document.querySelectorAll("[data-editentry]"), function (b) { b.onclick = function () { var id = b.getAttribute("data-editentry"); var en = findEntry(state.viewDay, id); if (!en) return; state.editingId = id; state.draftType = en.type; if (en.type === "milk") { state.feedMethod = en.feedMethod || (FEED_METHODS.filter(function (m) { return en.items && en.items.indexOf(m) === 0; })[0]) || state.enabledFeeds[0]; } if (en.type === "egg") { var mc = (en.items || "").match(/^(\u00bd|\d+)/); state.eggCount = mc ? mc[1] : "1"; var mp = (en.items || "").match(/,\s*([A-Za-z]+)/); state.eggPrep = mp ? (mp[1].charAt(0).toUpperCase() + mp[1].slice(1).toLowerCase()) : ""; } function go(p) { state.draftPhoto = p || ""; state.logOpen = true; render(); } if (en.photoId) { if (photoCache[en.photoId]) go(photoCache[en.photoId]); else idbGet(en.photoId, function (v) { if (v) photoCache[en.photoId] = v; go(v); }); } else go(""); }; });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-del]"), function (b) { b.onclick = function () { if (!confirm("Delete this entry?")) return; var id = b.getAttribute("data-del"); var en = findEntry(state.viewDay, id); if (en && en.photoId) idbDel(en.photoId); var day = getDay(state.viewDay); day.entries = (day.entries || []).filter(function (e) { return String(e.id) !== id; }); setDay(state.viewDay, day); if (state.editingId === id) state.editingId = null; render(); }; });
     bindPhotos();
   }
-  function closeSheet() { state.logOpen = false; state.editingId = null; state.draftPhoto = ""; state.sleepKind = ""; render(); }
+  function snapshotDraft() { var g = function (id) { var el = document.getElementById(id); return el ? el.value : null; }; state.draft = { type: state.draftType, time: g("f-time"), items: g("f-items"), note: g("f-note"), temp: g("f-temp"), end: g("f-end"), dur: g("f-dur"), amt: g("f-amt") }; }
+  function sheetHint(msg) { var h = document.getElementById("sheetHint"); if (h) h.textContent = msg; }
+  function closeSheet() { state.logOpen = false; state.editingId = null; state.draftPhoto = ""; state.draft = null; state.pickerOpen = false; render(); }
   function doAdd() {
+    var ftEl = document.getElementById("f-time");
+    if (!ftEl || !ftEl.value) { sheetHint("Set the time first."); if (ftEl) ftEl.focus(); return; }
+    if (state.draftType === "nap") { var feEl = document.getElementById("f-end"); if (!feEl || !feEl.value) { sheetHint("Add the nap end time so the length is saved."); if (feEl) feEl.focus(); return; } }
     var ie = document.getElementById("f-items"); var items = ie ? ie.value.trim() : "";
-    var feedMethod = null, amountMl = null, durationMin = null, napKind = null, napEnd = null;
+    var feedMethod = null, amountMl = null, durationMin = null, napEnd = null;
     if (state.draftType === "milk") {
-      feedMethod = state.feedMethod || "Cow milk";
-      if (feedMethod === "Breastfeed") { var du = document.getElementById("f-dur"); var dv = du ? du.value.trim() : ""; if (dv) durationMin = parseFloat(dv); items = feedMethod + (dv ? ", " + dv + " min" : ""); }
+      feedMethod = state.feedMethod || state.enabledFeeds[0] || "Cow milk";
+      if (/breast/i.test(feedMethod)) { var du = document.getElementById("f-dur"); var dv = du ? du.value.trim() : ""; if (dv) durationMin = parseFloat(dv); items = feedMethod + (dv ? ", " + dv + " min" : ""); }
       else { var au = document.getElementById("f-amt"); var av = au ? au.value.trim() : ""; if (av) amountMl = parseFloat(av); items = feedMethod + (av ? ", " + av + " ml" : ""); }
     }
     if (state.draftType === "symptom") { var te = document.getElementById("f-temp"); var tm = te ? te.value.trim() : ""; if (tm) items += " " + tm + " \u00b0" + state.tempunit; }
     if (state.draftType === "nap") {
-      var st = document.getElementById("f-time").value || nowTime();
+      var st = document.getElementById("f-time").value;
       var endEl = document.getElementById("f-end"); napEnd = endEl ? endEl.value : "";
-      napKind = state.sleepKind || suggestSleepKind(st);
       durationMin = sleepMinutes(st, napEnd);
-      items = napKind + (durationMin != null ? ", " + fmtDur(durationMin) : "") + (items ? " (" + items + ")" : "");
+      items = durationMin != null ? fmtDur(durationMin) : "(no end time)";
     }
+    if (state.draftType === "egg") { var ec2 = state.eggCount || "1"; var plural = (ec2 === "1" || ec2 === "\u00bd") ? "" : "s"; var prep = state.eggPrep || ""; items = ec2 + " egg" + plural + (prep ? ", " + prep.toLowerCase() : ""); }
+    if (state.draftType === "water" && /^\d+(\.\d+)?$/.test(items)) items = items + " ml";
     if (MARKER_TYPES.indexOf(state.draftType) >= 0) items = TYPES[state.draftType].label;
-    if (!items) return;
-    var time = document.getElementById("f-time").value || nowTime();
+    if (!items) items = (TYPES[state.draftType] && TYPES[state.draftType].label) || "Entry";
+    var time = document.getElementById("f-time").value;
     var note = document.getElementById("f-note").value.trim();
     var day = getDay(state.viewDay);
     var photo = state.draftPhoto || "";
+    var wasEditing = !!state.editingId;
     if (state.editingId) {
-      (day.entries || []).forEach(function (e) { if (String(e.id) === String(state.editingId)) { e.type = state.draftType; e.time = time; e.items = items; e.note = note; e.updated = Date.now(); if (photo) { var pid = e.photoId || uid(); e.photoId = pid; photoCache[pid] = photo; idbPut(pid, photo, function (ok) { if (!ok) alert("The photo could not be saved to storage."); }); } else if (e.photoId) { idbDel(e.photoId); delete e.photoId; } if (feedMethod) { e.feedMethod = feedMethod; e.amountMl = amountMl; e.durationMin = durationMin; } if (napKind) { e.sleepKind = napKind; e.endTime = napEnd; e.durationMin = durationMin; } } });
+      (day.entries || []).forEach(function (e) { if (String(e.id) === String(state.editingId)) { e.type = state.draftType; e.time = time; e.items = items; e.note = note; e.updated = Date.now(); if (photo) { var pid = e.photoId || uid(); e.photoId = pid; photoCache[pid] = photo; idbPut(pid, photo, function (ok) { if (!ok) alert("The photo could not be saved to storage."); }); } else if (e.photoId) { idbDel(e.photoId); delete e.photoId; } if (feedMethod) { e.feedMethod = feedMethod; e.amountMl = amountMl; e.durationMin = durationMin; } if (state.draftType === "nap") { e.endTime = napEnd; e.durationMin = durationMin; if (e.sleepKind) delete e.sleepKind; } } });
       day.entries.sort(function (a, b) { return a.time.localeCompare(b.time); });
       setDay(state.viewDay, day); state.editingId = null;
     } else {
       var e = { id: uid(), type: state.draftType, time: time, items: items, note: note, updated: Date.now() };
       if (photo) { var npid = uid(); e.photoId = npid; photoCache[npid] = photo; idbPut(npid, photo, function (ok) { if (!ok) alert("The photo could not be saved to storage. It may not survive a restart."); }); }
       if (feedMethod) { e.feedMethod = feedMethod; e.amountMl = amountMl; e.durationMin = durationMin; }
-      if (napKind) { e.sleepKind = napKind; e.endTime = napEnd; e.durationMin = durationMin; }
+      if (state.draftType === "nap") { e.endTime = napEnd; e.durationMin = durationMin; if (e.sleepKind) delete e.sleepKind; }
       day.entries = (day.entries || []).concat(e); day.entries.sort(function (a, b) { return a.time.localeCompare(b.time); }); setDay(state.viewDay, day);
-      if (["meal", "snack", "water", "drink"].indexOf(state.draftType) >= 0) { state.foods[items] = (state.foods[items] || 0) + 1; save(K.foods, state.foods); }
+      if (["meal", "snack", "fruit", "puree", "drink"].indexOf(state.draftType) >= 0) { state.foods[items] = (state.foods[items] || 0) + 1; save(K.foods, state.foods); }
     }
-    state.draftPhoto = ""; state.sleepKind = ""; state.logOpen = false;
+    state.draftPhoto = ""; state.draft = null; state.eggCount = "1"; state.eggPrep = ""; state.logOpen = false; state.pickerOpen = false;
     render();
+    toast(wasEditing ? "Saved" : "Logged \u2713");
   }
   function bindSheet() {
     var sc = document.getElementById("sheetClose"); if (sc) sc.onclick = closeSheet;
     var sbg = document.getElementById("sheetbg"); if (sbg) sbg.onclick = closeSheet;
-    Array.prototype.forEach.call(document.querySelectorAll("[data-type]"), function (b) { b.onclick = function () { state.draftType = b.getAttribute("data-type"); state.sleepKind = ""; render(); }; });
-    var cz = document.querySelector("[data-customize]"); if (cz) cz.onclick = function () { state.logOpen = false; state.tab = "settings"; state.scrollToButtons = true; render(); };
+    Array.prototype.forEach.call(document.querySelectorAll("[data-type]"), function (b) { b.onclick = function () { snapshotDraft(); state.pickerOpen = false; state.draftType = b.getAttribute("data-type"); state.eggCount = "1"; state.eggPrep = ""; render(); }; });
+    var ct = document.querySelector("[data-changetype]"); if (ct) ct.onclick = function () { snapshotDraft(); state.pickerOpen = true; render(); };
+    var cz = document.querySelector("[data-customize]"); if (cz) cz.onclick = function () { state.settingsOpen.logging = true; state.logOpen = false; state.tab = "settings"; state.scrollToButtons = true; render(); };
     var anb = document.getElementById("addNoteBtn"); if (anb) anb.onclick = function () { anb.style.display = "none"; var fn = document.getElementById("f-note"); if (fn) { fn.style.display = ""; fn.focus(); } };
     Array.prototype.forEach.call(document.querySelectorAll("[data-chip]"), function (b) { b.onclick = function () { var inp = document.getElementById("f-items"); if (inp) inp.value = b.getAttribute("data-chip"); Array.prototype.forEach.call(document.querySelectorAll("[data-chip]"), function (x) { x.className = "typebtn"; x.style.background = ""; }); b.className = "typebtn active"; b.style.background = "var(--primary)"; }; });
-    Array.prototype.forEach.call(document.querySelectorAll("[data-slot]"), function (b) { b.onclick = function () { var ft = document.getElementById("f-time"); if (ft) ft.value = b.getAttribute("data-slot"); }; });
-    Array.prototype.forEach.call(document.querySelectorAll("[data-feedmethod]"), function (b) { b.onclick = function () { state.feedMethod = b.getAttribute("data-feedmethod"); render(); }; });
-    Array.prototype.forEach.call(document.querySelectorAll("[data-sleepkind]"), function (b) { b.onclick = function () { state.sleepKind = b.getAttribute("data-sleepkind"); render(); }; });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-slot]"), function (b) { b.onclick = function () { var ft = document.getElementById("f-time"); if (!ft) return; var v = b.getAttribute("data-slot"); if (v === "now") { ft.value = nowTime(); } else { var mins = parseInt(v, 10); var cur = ft.value || nowTime(); var p = cur.split(":").map(Number); var tt = (((p[0] * 60 + p[1] + mins) % 1440) + 1440) % 1440; ft.value = pad(Math.floor(tt / 60)) + ":" + pad(tt % 60); } var nd = document.getElementById("napdur"); if (nd) { var fe = document.getElementById("f-end"); nd.textContent = napDurText(ft.value, fe ? fe.value : ""); } }; });
+    var ftN = document.getElementById("f-time"), feN = document.getElementById("f-end"), ndN = document.getElementById("napdur");
+    if (ftN && feN && ndN) { var updNap = function () { ndN.textContent = napDurText(ftN.value, feN.value); }; ftN.addEventListener("input", updNap); ftN.addEventListener("change", updNap); feN.addEventListener("input", updNap); feN.addEventListener("change", updNap); }
+    Array.prototype.forEach.call(document.querySelectorAll("[data-feedmethod]"), function (b) { b.onclick = function () { snapshotDraft(); state.feedMethod = b.getAttribute("data-feedmethod"); render(); }; });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-eggcount]"), function (b) { b.onclick = function () { snapshotDraft(); state.eggCount = b.getAttribute("data-eggcount"); render(); }; });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-eggprep]"), function (b) { b.onclick = function () { snapshotDraft(); state.eggPrep = (state.eggPrep === b.getAttribute("data-eggprep")) ? "" : b.getAttribute("data-eggprep"); render(); }; });
     Array.prototype.forEach.call(document.querySelectorAll("[data-tempunit]"), function (b) { b.onclick = function () { state.tempunit = b.getAttribute("data-tempunit"); save(K.tempunit, state.tempunit); Array.prototype.forEach.call(document.querySelectorAll("[data-tempunit]"), function (x) { x.className = x.getAttribute("data-tempunit") === state.tempunit ? "on" : ""; }); }; });
     var peb = document.getElementById("photoEntryBtn"), pef = document.getElementById("photoEntryFile");
     if (peb && pef) { peb.onclick = function () { pef.click(); }; pef.onchange = function () { readEntryPhoto(pef.files[0]); }; }
@@ -860,8 +996,12 @@ window.WHO_LMS={"wfa_b":[[0.3487,3.3464,0.14602],[0.2297,4.4709,0.13395],[0.197,
   }
 
   function bindSettings() {
+    Array.prototype.forEach.call(document.querySelectorAll("[data-sec]"), function (b) { b.onclick = function () { var id = b.getAttribute("data-sec"); state.settingsOpen[id] = !state.settingsOpen[id]; render(); }; });
     Array.prototype.forEach.call(document.querySelectorAll("[data-toggletype]"), function (b) { b.onclick = function () { var k = b.getAttribute("data-toggletype"); var i = state.enabledTypes.indexOf(k); if (i >= 0) { if (state.enabledTypes.length > 1) state.enabledTypes.splice(i, 1); } else { state.enabledTypes = PICKER.filter(function (t) { return state.enabledTypes.indexOf(t) >= 0 || t === k; }); } save(K.enabled, state.enabledTypes); render(); }; });
     Array.prototype.forEach.call(document.querySelectorAll("[data-togglefeed]"), function (b) { b.onclick = function () { var m = b.getAttribute("data-togglefeed"); var i = state.enabledFeeds.indexOf(m); if (i >= 0) { if (state.enabledFeeds.length > 1) state.enabledFeeds.splice(i, 1); } else { state.enabledFeeds = FEED_METHODS.filter(function (t) { return state.enabledFeeds.indexOf(t) >= 0 || t === m; }); } save(K.feedmethods, state.enabledFeeds); render(); }; });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-feeddetail]"), function (b) { b.onclick = function () { state.feedDetail = b.getAttribute("data-feeddetail") === "1"; save(K.feeddetail, state.feedDetail); render(); }; });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-cgroup]"), function (b) { b.onclick = function () { var nm = (document.getElementById("c-name") || {}).value || ""; var em = (document.getElementById("c-emoji") || {}).value || ""; state.customGroup = b.getAttribute("data-cgroup"); state.customDraft = { nm: nm, em: em }; render(); }; });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-toggleprep]"), function (b) { b.onclick = function () { var p = b.getAttribute("data-toggleprep"); var i = state.enabledPreps.indexOf(p); if (i >= 0) state.enabledPreps.splice(i, 1); else state.enabledPreps = EGG_PREPS.filter(function (x) { return state.enabledPreps.indexOf(x) >= 0 || x === p; }); save(K.eggpreps, state.enabledPreps); render(); }; });
     idbAll(function (list) { var el = document.getElementById("photoCount"); if (el) el.textContent = list.length ? (list.length + " photo" + (list.length > 1 ? "s" : "") + " stored in the app.") : "No photos attached yet."; });
     if (state.scrollToButtons) { state.scrollToButtons = false; var lc = document.getElementById("logbuttons-card"); if (lc) setTimeout(function () { lc.scrollIntoView({ behavior: "smooth", block: "start" }); }, 60); }
     var pz = document.getElementById("photoZipBtn"); if (pz) pz.onclick = function () { exportPhotosZip(); };
@@ -872,14 +1012,14 @@ window.WHO_LMS={"wfa_b":[[0.3487,3.3464,0.14602],[0.2297,4.4709,0.13395],[0.197,
       if (!nm) return;
       var key = "cust-" + uid();
       TYPES[key] = { label: nm, icon: em || "\ud83d\udcdd" };
-      CUSTOM.push({ key: key, label: nm, icon: em || "\ud83d\udcdd" }); save(K.custom, CUSTOM);
+      CUSTOM.push({ key: key, label: nm, icon: em || "\ud83d\udcdd", group: state.customGroup || "Other" }); save(K.custom, CUSTOM); state.customGroup = "Other";
       if (PICKER.indexOf(key) < 0) PICKER.push(key);
       if (state.enabledTypes.indexOf(key) < 0) state.enabledTypes = state.enabledTypes.concat([key]);
-      save(K.enabled, state.enabledTypes);
-      render();
+      save(K.enabled, state.enabledTypes); state.customDraft = null;
+      render(); toast("Button added");
     };
     Array.prototype.forEach.call(document.querySelectorAll("[data-delcustom]"), function (b) { b.onclick = function () { var key = b.getAttribute("data-delcustom"); CUSTOM = CUSTOM.filter(function (c) { return c.key !== key; }); save(K.custom, CUSTOM); var pi = PICKER.indexOf(key); if (pi >= 0) PICKER.splice(pi, 1); state.enabledTypes = state.enabledTypes.filter(function (k) { return k !== key; }); save(K.enabled, state.enabledTypes); render(); }; });
-    Array.prototype.forEach.call(document.querySelectorAll("[data-sex]"), function (b) { b.onclick = function () { state.child.sex = b.getAttribute("data-sex"); Array.prototype.forEach.call(document.querySelectorAll("[data-sex]"), function (x) { x.className = x.getAttribute("data-sex") === state.child.sex ? "on" : ""; }); }; });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-sex]"), function (b) { b.onclick = function () { state.child.sex = b.getAttribute("data-sex"); Array.prototype.forEach.call(document.querySelectorAll("[data-sex]"), function (x) { x.className = "sexcard" + (x.getAttribute("data-sex") === state.child.sex ? " on" : ""); }); }; });
     var sp = document.getElementById("saveProfile");
     if (sp) sp.onclick = function () {
       state.child = { name: document.getElementById("s-name").value.trim(), dob: document.getElementById("s-dob").value, sex: state.child.sex || "", photo: state.child.photo || "" };
@@ -916,7 +1056,7 @@ window.WHO_LMS={"wfa_b":[[0.3487,3.3464,0.14602],[0.2297,4.4709,0.13395],[0.197,
       im.onclick = function () { file.click(); };
       file.onchange = function () {
         var f = file.files[0]; if (!f) return; var r = new FileReader();
-        r.onload = function () { try { mergeImport(JSON.parse(r.result)); render(); alert("Backup merged in. Nothing was deleted."); } catch (e) { alert("That file could not be read as a backup."); } };
+        r.onload = function () { try { mergeImport(JSON.parse(r.result)); render(); toast("Backup merged in. Nothing was deleted."); } catch (e) { alert("That file could not be read as a backup."); } };
         r.readAsText(f);
       };
     }
@@ -933,7 +1073,7 @@ window.WHO_LMS={"wfa_b":[[0.3487,3.3464,0.14602],[0.2297,4.4709,0.13395],[0.197,
         if (prev.units) { state.units = prev.units; save(K.units, state.units); }
         state.appname = prev.appname || ""; save(K.appname, state.appname);
         if (prev.tempunit) { state.tempunit = prev.tempunit; save(K.tempunit, state.tempunit); }
-        render(); alert("Snapshot restored.");
+        render(); toast("Snapshot restored.");
       }
     };
   }
@@ -980,7 +1120,9 @@ window.WHO_LMS={"wfa_b":[[0.3487,3.3464,0.14602],[0.2297,4.4709,0.13395],[0.197,
     if (d.tempunit) { state.tempunit = d.tempunit; save(K.tempunit, state.tempunit); }
     if (Array.isArray(d.enabled) && d.enabled.length) { var et = d.enabled.filter(function (k) { return PICKER.indexOf(k) >= 0; }); if (et.length) { state.enabledTypes = et; save(K.enabled, state.enabledTypes); } }
     if (Array.isArray(d.feedmethods) && d.feedmethods.length) { var ef = d.feedmethods.filter(function (m) { return FEED_METHODS.indexOf(m) >= 0; }); if (ef.length) { state.enabledFeeds = ef; save(K.feedmethods, state.enabledFeeds); } }
-    if (Array.isArray(d.custom)) { d.custom.forEach(function (c) { if (c && c.key) { if (!CUSTOM.some(function (x) { return x.key === c.key; })) CUSTOM.push({ key: c.key, label: c.label, icon: c.icon }); TYPES[c.key] = { label: c.label || "Custom", icon: c.icon || "\ud83d\udcdd" }; if (PICKER.indexOf(c.key) < 0) PICKER.push(c.key); } }); save(K.custom, CUSTOM); }
+    if (typeof d.feeddetail === "boolean") { state.feedDetail = d.feeddetail; save(K.feeddetail, state.feedDetail); }
+    if (Array.isArray(d.eggpreps)) { state.enabledPreps = d.eggpreps.filter(function (x) { return EGG_PREPS.indexOf(x) >= 0; }); save(K.eggpreps, state.enabledPreps); }
+    if (Array.isArray(d.custom)) { d.custom.forEach(function (c) { if (c && c.key) { if (!CUSTOM.some(function (x) { return x.key === c.key; })) CUSTOM.push({ key: c.key, label: c.label, group: c.group, icon: c.icon }); TYPES[c.key] = { label: c.label || "Custom", icon: c.icon || "\ud83d\udcdd" }; if (PICKER.indexOf(c.key) < 0) PICKER.push(c.key); } }); save(K.custom, CUSTOM); }
     if (d.photos && typeof d.photos === "object") { Object.keys(d.photos).forEach(function (pid) { var v = d.photos[pid]; if (v) { photoCache[pid] = v; idbPut(pid, v); } }); }
     migratePhotos();
   }
@@ -1010,12 +1152,12 @@ window.WHO_LMS={"wfa_b":[[0.3487,3.3464,0.14602],[0.2297,4.4709,0.13395],[0.197,
   function photoMeta() { var map = {}; Object.keys(state.days).forEach(function (dk) { (state.days[dk].entries || []).forEach(function (e) { if (e.photoId) map[e.photoId] = { date: dk, time: e.time, type: e.type }; }); }); return map; }
   function exportPhotosZip() {
     idbAll(function (list) {
-      if (!list.length) { alert("No photos attached yet."); return; }
+      if (!list.length) { toast("No photos attached yet."); return; }
       var meta = photoMeta(), files = [];
       list.forEach(function (rec, i) { var m = meta[rec.id] || {}; var label = (TYPES[m.type] && TYPES[m.type].label) || "photo"; var base = (m.date || "photo") + "_" + ((m.time || "").replace(":", "") || "x") + "_" + label; var bytes = dataUrlToBytes(rec.data); if (bytes) files.push({ name: safeName(base) + "_" + (i + 1) + ".jpg", bytes: bytes }); });
       if (!files.length) { alert("No photos could be read."); return; }
       var blob = zipStore(files); var url = URL.createObjectURL(blob); var a = document.createElement("a");
-      a.href = url; a.download = "rudras-day-photos-" + todayKey() + ".zip"; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      a.href = url; a.download = fileStem() + "-photos-" + todayKey() + ".zip"; document.body.appendChild(a); a.click(); document.body.removeChild(a);
       setTimeout(function () { URL.revokeObjectURL(url); }, 1500);
     });
   }
@@ -1040,7 +1182,7 @@ window.WHO_LMS={"wfa_b":[[0.3487,3.3464,0.14602],[0.2297,4.4709,0.13395],[0.197,
 </script>
 <script>
 (function () {
-  var APP_VERSION = 34;
+  var APP_VERSION = 54;
   try {
     if (navigator.onLine) {
       fetch("index.html?ts=" + Date.now(), { cache: "no-store" }).then(function (r) { return r.text(); }).then(function (html) {
@@ -1071,7 +1213,7 @@ window.WHO_LMS={"wfa_b":[[0.3487,3.3464,0.14602],[0.2297,4.4709,0.13395],[0.197,
     if (bar) return;
     bar = document.createElement("div");
     bar.setAttribute("style", "position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:9998;max-width:496px;margin:0 auto;background:var(--primary);color:#fff;border-radius:16px;padding:12px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 6px 20px rgba(0,0,0,.25);font-family:inherit");
-    bar.innerHTML = '<span style="flex:1;font-weight:700;font-size:14px">Install Rudra\'s Day on your phone</span>';
+    bar.innerHTML = '<span style="flex:1;font-weight:700;font-size:14px">Add this app to your home screen</span>';
     var yes = document.createElement("button");
     yes.textContent = "Install";
     yes.setAttribute("style", "border:none;background:#fff;color:var(--primary);border-radius:12px;padding:9px 14px;font-weight:800;cursor:pointer;font-family:inherit");
