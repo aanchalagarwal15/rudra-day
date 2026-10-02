@@ -82,6 +82,10 @@ textarea.fld{width:100%;border:1.5px solid var(--line);border-radius:14px;paddin
 .cropimg{position:absolute;left:0;top:0;max-width:none;transform-origin:0 0;pointer-events:none;-webkit-user-select:none;user-select:none;-webkit-user-drag:none;}
 .cropring{position:absolute;inset:0;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 999px rgba(0,0,0,.55);pointer-events:none;}
 .cropzoom{width:100%;margin:14px 0 8px;accent-color:var(--primary);}
+input.fld[type=date],input.fld[type=time]{-webkit-appearance:none;appearance:none;display:block;width:100%;min-width:0;max-width:100%;min-height:48px;text-align:left;}
+input.fld[type=date]::-webkit-date-and-time-value,input.fld[type=time]::-webkit-date-and-time-value{text-align:left;}
+.row>label,.row>.fld,.row>.timewrap{min-width:0;}
+.card{overflow-wrap:anywhere;}
 .toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translate(-50%,10px);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:14px;font-size:13px;font-weight:700;opacity:0;transition:opacity .25s,transform .25s;z-index:950;pointer-events:none;max-width:90%;text-align:center;}
 .toast.show{opacity:1;transform:translate(-50%,0);}
 .grouplabel{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin:12px 0 6px;}
@@ -1305,7 +1309,7 @@ window.WHO_WFL = { b: { L: -0.3521, M: [2.441,2.5244,2.6077,2.6913,2.7755,2.8609
 </script>
 <script>
 (function () {
-  var APP_VERSION = 59; window.APP_VERSION = APP_VERSION;
+  var APP_VERSION = 60; window.APP_VERSION = APP_VERSION;
   try {
     if (navigator.onLine) {
       fetch("index.html?ts=" + Date.now(), { cache: "no-store" }).then(function (r) { return r.text(); }).then(function (html) {
